@@ -1,0 +1,16 @@
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  body {
+    /* This style below will be inherited */
+    font-family: Roboto, Arial;
+    margin: 0;
+    padding-top: 80px;
+    padding-right: 24px;
+    background-color: white;
+  }
+  label{
+    font-size: 14px;
+  }
