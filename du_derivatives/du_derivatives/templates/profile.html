@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DU derivatives</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/header.css">
+    <link rel="stylesheet" href="static/css/footer.css">
+    <link rel="stylesheet" href="static/css/general.css">
+    <link rel="stylesheet" href="static/css/app-preview.css">
+    <link rel = "stylesheet" href = "static/css/profile/profileview.css">
+    <link rel = "stylesheet" href = "static/css/chooseoption.css">
+
+  </head>
+
+  <body>
+
+    <!-- top navigation bar -->
+    <header class="header">
+      <!-- left section where logo and app name i -->
+      <div class="left-section">
+        <img class="logo" src="images/logo.png">
+        <p class="title"> <b>CSEDU derivatives</b> </p>
+      </div>
+      <!-- middle section for search bar and search icon -->
+      <div class="middle-section">
+        <input class="search-bar" type="text" placeholder="Search">
+        <button class="search-button">
+          <img class="search-icon" src="static/img/extras/search-icon.png">
+          <div class="tooltip">Search</div>
+        </button>
+       
+      </div>
+      <div class="right-section">
+        <!-- if logged in -->
+        <img class="header-profile-icon" src = "static/img/extras/person.png">
+          
+        <!-- dropdown menu for clicking profile picture -->
+          <div class="dropdown">
+            <button class="dropdownbtn">
+              <img class = "dropdown-icon" src = "static/img/extras/dropdowm.png">
+        </button>
+            <div class = "dropdown-content">
+              <a href="#"><p> signed in as:
+                <br> profile name
+              </p></a>
+              <a href="#">your profile</a>
+              <a href="#">alter theme</a>
+              <a href="#">logout</a>
+            </div>
+          </div>
+      </div>
+    </header>
+
+    
+        <div class = "profile-view">
+            <div class = "profile-image-section">
+                <img class = "profile-icon" src = "static/img/extras/person.png">
+            </div>
+            <div class = "profile-info-section">
+                <div class = "name-text">
+                    <p> <strong>Profile name</strong></p>
+                </div>  
+                <div class = "batch-name">
+                    <p> batch: 25</p>
+                </div>
+                    <button class = "edit-profile-btn"> edit profile</button>
+                </div>
+            </div>
+        </div>
+        
+        <main class = "profile-main">
+        <div class = "my-poject-text">
+            <p> My projects</p>
+        </div>
+
+
+        <div class="option">  
+            <!-- choosing between apps or websites -->
+            <div class = "application-selected">
+                <button class = "application-button">Applications</button>
+                <button class = "plus-button">
+                    <img class = "plus-icon" src = "static/img/extras/plus-512.webp">
+                </button>
+            </div>
+            <div class = "website-selected">
+                <button class = "website-button">Websites</button>
+                <button class = "plus-button">
+                    <img class = "plus-icon" src = "static/img/extras/plus-512.webp">
+                </button>
+            </div>
+        </div>
+
+
+
+        <div class = "profile-app-preview">        
+  
+            <!-- grid box for app in a same category -->
+            <div class = "app-container">
+              
+              <!-- properties of a single app (image name rating) -->
+              <!-- first -->
+              <div class = "single-app"> 
+                <div class = "app-numbering">
+                    <p>1. </p>
+                </div>
+                <div class="app-image">
+                  <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                </div>
+                <div class = "app-name">
+                  <p> app name</p>
+                  <p>4.4</p>
+                </div>
+             </div>
+  
+             <!-- second -->
+              <div class = "single-app"> 
+                <div class = "app-numbering">
+                    <p>2. </p>
+                </div>
+                <div class="app-image">
+                  <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                </div>
+                <div class = "app-name">
+                  <p> app name</p>
+                  <p>4.4</p>
+                </div>
+              </div>
+              <!-- third -->
+              <div class = "single-app">
+                <div class = "app-numbering">
+                    <p>3. </p>
+                </div> 
+                <div class="app-image">
+                  <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                </div>
+                <div class = "app-name">
+                  <p> renshu-japanese learning lalala</p>
+                  <p>4.4</p>
+                </div>
+             </div>
+             <!-- fourth -->
+              <div class = "single-app">
+                <div class = "app-numbering">
+                    <p>4. </p>
+                </div> 
+                <div class="app-image">
+                  <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                </div>
+                <div class = "app-name">
+                  <p> app name</p>
+                  <p>4.4</p>
+                </div>
+              </div>
+              <!-- fifth -->
+              <div class = "single-app"> 
+                <div class = "app-numbering">
+                    <p>5. </p>
+                </div>
+                <div class="app-image">
+                  <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                </div>
+                <div class = "app-name">
+                  <p> app name</p>
+                  <p>4.4</p>
+                </div>
+              </div>
+            </div>
+            
+    </main>
+
+
+
+       <!-- the bottom section -->
+    <footer class="footer">
+        <div class="left">
+            <p>  © CSEDU Products 2023 <br> all rights reserved </p>
+        </div>
+        <div class="right">
+            <button class = "mail-button"> 
+                <img class = "mail-icon" src="static/img/extras/white email.png">
+             </button>
+            <button class="message-button">
+                 <img class = "message-icon" src = "static/img/extras/white messenger.png" >
+            </button>
+            <button class="linkedin-button"> 
+                <img  class = "linkedin-icon" src = "static/img/extras/white linkedin.png">
+            </button>
+    
+        </div>
+    </footer>
+
+    </body>
