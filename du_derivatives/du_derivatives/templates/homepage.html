@@ -39,8 +39,8 @@
       <!-- for login and signup button -->
       <div class="right-section">
         <!--  if not logged in -->
-            <button class="login-button">login</button>
-            <button class = "signup-button">signup</button> 
+            <a href = "login"> <button class="login-button">login</button></a>
+           <a href = "signup"><button class = "signup-button">signup</button> </a> 
 
         <!-- if logged in -->
             <!-- <img class="header-profile-icon" src = "images/extras/person.png">
@@ -78,6 +78,7 @@
 
        <section class="application-section">
         <!-- if applications are chosen -->
+      
         <nav class="sidebar">
             <div class="mobileorweb">
               <!-- choose between mobile or desktop version -->
@@ -141,53 +142,84 @@
             <!-- properties of a single app (image name rating) -->
             <!-- first -->
             <div class = "single-app"> 
+              <div class = "app-numbering">
+                  <p>1. </p>
+              </div>
               <div class="app-image">
                 <img class = "app-icon" src = "static/img/apps/renshuu.webp">
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
            </div>
 
            <!-- second -->
-            <div class = "single-app"> 
-              <div class="app-image">
-                <img class = "app-icon" src = "static/img/apps/renshuu.webp">
-              </div>
-              <div class = "app-name">
-                <p> app name</p>
-                <p>4.4</p>
+           <div class = "single-app"> 
+            <div class = "app-numbering">
+                <p>2. </p>
+            </div>
+            <div class="app-image">
+              <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+            </div>
+            <div class = "app-name">
+              <p> app name</p>
+              <div class = "app-rating">
+                <img class = "star-icon" src = "static/img/extras/star.png">
+                <p>4.4</p>  
               </div>
             </div>
-            <!-- third -->
-            <div class = "single-app"> 
-              <div class="app-image">
-                <img class = "app-icon" src = "static/img/apps/renshuu.webp">
-              </div>
-              <div class = "app-name">
-                <p> renshu-japanese learning lalala</p>
-                <p>4.4</p>
-              </div>
-           </div>
-           <!-- fourth -->
-            <div class = "single-app"> 
+          </div>
+             <!-- third -->
+             <div class = "single-app">
+              <div class = "app-numbering">
+                  <p>3. </p>
+              </div> 
               <div class="app-image">
                 <img class = "app-icon" src = "static/img/apps/renshuu.webp">
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
+              </div>
+           </div>
+
+           <!-- fourth -->
+            <div class = "single-app">
+              <div class = "app-numbering">
+                  <p>4. </p>
+              </div> 
+              <div class="app-image">
+                <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+              </div>
+              <div class = "app-name">
+                <p> app name</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
             </div>
             <!-- fifth -->
             <div class = "single-app"> 
+              <div class = "app-numbering">
+                  <p>5. </p>
+              </div>
               <div class="app-image">
                 <img class = "app-icon" src = "static/img/apps/renshuu.webp">
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
             </div>
           </div>
@@ -205,7 +237,10 @@
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
            </div>
 
@@ -215,7 +250,10 @@
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
             </div>
 
@@ -224,8 +262,11 @@
                 <img class = "app-icon" src = "static/img/apps/renshuu.webp">
               </div>
               <div class = "app-name">
-                <p> renshu-japanese learning</p>
-                <p>4.4</p>
+                <p> app name</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
            </div>
 
@@ -235,7 +276,10 @@
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
             </div>
 
@@ -245,19 +289,32 @@
               </div>
               <div class = "app-name">
                 <p> app name</p>
-                <p>4.4</p>
+                <div class = "app-rating">
+                  <img class = "star-icon" src = "static/img/extras/star.png">
+                  <p>4.4</p>  
+                </div>
               </div>
             </div>
           </div>
 
+
+          <!-- health apps -->
           <div class ="app-category-header">
             <p> Health</p>
           </div>
           <div class=" app-container">
-            <p class = "no-apps-text">no apps yet</p>
+            <div class = "no-apps-text"> <p>no apps yet</p> </div>
           </div>
-         </div>
-        
+          
+
+          <div class ="app-category-header">
+            <p> Tools</p>
+          </div>
+          <div class=" app-container">
+            <div class = "no-apps-text"> <p>no apps yet</p> </div>
+          </div>
+
+        </div>
 
        </section>
     </main>
