@@ -1,0 +1,200 @@
+.header {
+    height: 55px;
+  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+  
+    background-color: white;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(228, 228, 228);
+  }
+  
+  .left-section {
+    display: flex;
+    align-items: center;
+    margin-left: 2%;
+    flex:2;
+  }
+  
+  .logo {
+    height: 30px;
+    align-items: center;
+  }
+  .title{
+    color: rgb(28, 46, 110);
+    text-emphasis-style: bold;
+    padding: 1%;
+    padding-top: 10px;
+
+  }
+  
+  .middle-section {
+    flex: 1;
+    max-width: 500px;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar {
+    flex: 1;
+    height: 36px;
+    padding-left: 10px;
+    font-size: 16px;
+    width: 0;
+    border-bottom: 1px solid black;
+    border-top: 0cap;
+    border-left: 0cap;
+    border-right: 0cap;
+  }
+  
+  .search-bar::placeholder {
+    font-size: 16px;
+  }
+  
+  .search-button {
+    height: 40px;
+    width: 60px;
+    background-color: white;
+    border: none;
+    border-color: rgb(192, 192, 192);
+  }
+  
+  .search-button
+   {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .search-button .tooltip {
+  position: absolute;
+  background-color: gray;
+  color: white;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  bottom: -30px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+  
+  
+  .search-button:hover .tooltip {
+    opacity: 1;
+  }
+  
+  .search-icon {
+    height: 25px;
+  }
+  
+  
+  .right-section {
+    flex:1;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .login-button, .signup-button {
+    width: 80px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    font-size: medium;
+    color: rgb(28, 46, 110);
+    
+  }
+
+  .login-button:hover, .signup-button:hover{
+    background-color: rgb(52, 76, 161);
+    border-radius: 10px;
+    color: white;
+    align-items: center;
+  }
+
+  .header-profile-icon{
+    height: 50px;
+    border-radius: 15px;
+  }
+
+
+  
+  .dropdown-icon{
+    width:20px;
+  }
+
+  .dropdownbtn {
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 200;
+  }
+
+  
+  .dropdown-content{
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 200;
+    color: white;
+    background-color: white;
+    right: 0;
+    color: rgb(29, 44, 99);
+    border-radius: 10px;;
+   
+  }
+  
+  .dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    z-index: 200;
+    color: rgb(37, 55, 123);
+
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #7776cb;
+    color: white;
+    
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+
+  }
+  
+  .dropdown:hover .dropdownbtn {
+    cursor: default;
+    transform: rotate(180deg);
+    transition: all 0.3s ease-in-out 0s;
+  }
+  
+  

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from du_derivatives.views import *
 
@@ -25,3 +26,7 @@ urlpatterns = [
     path('signup', signup),
     path('profile', profile)
 ]
+
+# ... the rest of your URLconf goes here ...
+#
+# urlpatterns += staticfiles_urlpatterns()
