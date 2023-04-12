@@ -54,7 +54,7 @@ ROOT_URLCONF = 'du_derivatives.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'du_derivatives/templates'],
+        'DIRS': [BASE_DIR, 'du_derivatives/du_derivatives/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,3 +125,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+ALLOWED_HOSTS = ['*']
