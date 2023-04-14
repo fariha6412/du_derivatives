@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DU derivatives</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/header.css">
+    <link rel="stylesheet" href="static/css/sidebar.css">
+    <link rel="stylesheet" href="static/css/footer.css">
+    <link rel="stylesheet" href="static/css/general.css">
+    <link rel="stylesheet" href="static/css/chooseoption.css">
+    <link rel="stylesheet" href="static/css/app-preview.css">
+
+    <link rel = "stylesheet" href = "static/css/profile/profileview.css">
+
+  </head>
+
+
+  <body>
+
+    <!-- top navigation bar -->
+    <header class="header">
+      <!-- left section where logo and app name i -->
+      <div class="left-section">
+        <img class="logo" src="static/img/logo.png">
+        <a href="{% url 'home' %}"> <p class="title"> <b>CSEDU derivatives</b> </p></a>
+      </div>
+      <!-- middle section for search bar and search icon -->
+      <div class="middle-section">
+        <input class="search-bar" type="text" placeholder="Search">
+        <button class="search-button">
+          <img class="search-icon" src="static/img/extras/search-icon.png">
+          <div class="tooltip">Search</div>
+        </button>
+
+      </div>
+
+      <!-- for login and signup button -->
+      <div class="right-section">
+        <!-- if logged in -->
+          {% if request.user.is_authenticated %}
+            <img class="header-profile-icon" src = {{request.user.profile_picture.url}}>
+
+        <!-- dropdown menu for clicking profile picture -->
+        <div class="dropdown">
+            <button class="dropdownbtn">
+              <img class = "dropdown-icon" src = "static/img/extras/dropdowm.png">
+        </button>
+            <div class = "dropdown-content">
+              <a href="{% url 'profile' %}"><p> signed in as:
+                <br> {{request.user.name}}
+              </p></a>
+              <a href="{% url 'profile' %}">your profile</a>
+              <a href="#">alter theme</a>
+              <a href="{% url 'logout' %}">logout</a>
+            </div>
+          </div>
+          {% else %}
+          <!--  if not logged in -->
+            <a href = "login"> <button class="login-button">login</button></a>
+           <a href = "signup"><button class = "signup-button">signup</button> </a>
+          {% endif %}
+        </div>
+    </header>
+
+    <!-- if already logged in -->
+
+  {% block content %}
+
+  {% endblock %}
+
+
+    <!-- the bottom section -->
+    <footer class="footer">
+        <div class="left">
+            <p>  © CSEDU Products 2023 <br> all rights reserved </p>
+        </div>
+        <div class="right">
+            <button class = "mail-button">
+                <img class = "mail-icon" src="static/img/extras/white email.png">
+             </button>
+            <button class="message-button">
+                 <img class = "message-icon" src = "static/img/extras/white messenger.png" >
+            </button>
+            <button class="linkedin-button">
+                <img  class = "linkedin-icon" src = "static/img/extras/white linkedin.png">
+            </button>
+
+        </div>
+    </footer>
+  </body>
+</html>

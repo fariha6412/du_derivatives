@@ -1,0 +1,31 @@
+                   <!DOCTYPE html>
+<html lang="en" >
+<head>
+ 
+<title>DU derivatives</title>
+
+<link rel="stylesheet" href="static/css/login/login.css">
+
+</head>
+
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="login-page">
+      <div class="form">
+        <form class="login-form" method="POST" action="">
+          {% csrf_token %}
+          <input type="text" placeholder="email_address" name="username"/>
+            {% if messages %}
+            <div class="messages">{% for message in messages %}<p>{{ message }}</p><br>{% endfor %}</div>
+            {% endif %}
+          <input type="password" placeholder="password" name="password"/>
+          <button>login</button>
+          <p class="message">Forgot password? <a href="signup">reset</a></p>
+
+          <p class="message">Not registered? <a href="signup">Create an account</a></p>
+        </form>
+      </div>
+    </div>
+</body>
+</html>

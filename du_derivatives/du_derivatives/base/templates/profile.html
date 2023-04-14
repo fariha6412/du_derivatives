@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    
+        <div class = "profile-view">
+            <div class = "profile-image-section">
+                <img class = "profile-icon" src = {{request.user.profile_picture.url}}>
+            </div>
+            <div class = "profile-info-section">
+                <div class = "name-text">
+                    <p> <strong>{{request.user.name}}</strong></p>
+                </div>  
+                <div class = "batch-name">
+                    <p> batch: {{request.user.csedu_batch}}</p>
+                </div>
+                    <button class = "edit-profile-btn"> edit profile</button>
+                </div>
+            </div>
+        </div>
+        
+        <main class = "profile-main">
+        <div class = "my-poject-text">
+            <p> My projects</p>
+        </div>
+
+
+        <div class="option">  
+            <!-- choosing between apps or websites -->
+            <div class = "application-selected">
+                <button class = "application-button">Applications</button>
+                <button class = "plus-button">
+                    <img class = "plus-icon" src = "static/img/extras/plus-512.webp">
+                </button>
+            </div>
+            <div class = "website-selected">
+                <button class = "website-button">Websites</button>
+                <button class = "plus-button">
+                    <img class = "plus-icon" src = "static/img/extras/plus-512.webp">
+                </button>
+            </div>
+        </div>
+
+
+
+        <div class = "profile-app-preview">        
+  
+            <!-- grid box for app in a same category -->
+            <div class = "app-container">
+              {% for pair in apps %}
+              <!-- properties of a single app (image name rating) -->
+              <div class = "single-app">
+                <div class = "app-numbering">
+                    <p>{{pair.i}}. </p>
+                </div>
+                <div class="app-image">
+                  <img class = "app-icon" src ={{pair.app.logo_img.url}}>
+                </div>
+                <div class = "app-name">
+                  <p>{{pair.app.title}}</p>
+                  <div class = "app-rating">
+                    <img class = "star-icon" src = "static/img/extras/star.png">
+                    <p>{{pair.app.rate}}</p>
+                  </div>
+                </div>
+             </div>
+             {% endfor %}
+            </div>
+        </div>
+        </main>
+{% endblock %}

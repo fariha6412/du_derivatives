@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+ 
+<title>DU derivatives</title>
+
+<link rel="stylesheet" href="static/css/login/login.css">
+
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="form">
+          <form class="login-form" method="POST">
+              {% csrf_token %}
+               {% for field in form %}
+          <div class="form__group form__group"> <!--ela css this class -->
+            <label>{{field.label}}</label>
+            {{field}}
+          </div>
+          {% endfor %}
+<!--              <input type="text" placeholder="username" name="username"/>-->
+<!--            <input type="text" placeholder="email_address" name="email_address"/>-->
+<!--              <input type="number" placeholder="csedu_batch" name="csedu_batch"/>-->
+<!--              <input type="password" placeholder="password1" name="password2"/>-->
+<!--              <input type="re-password" placeholder="password2" name="re-password1"/>-->
+            <button>create</button>
+            <p class="message">Already registered? <a href="login">Sign In</a></p>
+          </form>
+        </div>
+      </div>
+   
+
+</body>
