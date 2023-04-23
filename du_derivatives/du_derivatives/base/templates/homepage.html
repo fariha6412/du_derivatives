@@ -11,57 +11,17 @@
 
 
        <section class="application-section">
-        <!-- if applications are chosen -->
-      
-        <nav class="sidebar">
-            <div class="mobileorweb">
-              <!-- choose between mobile or desktop version -->
-            <div class = "mobile-button">
-                <img class = "mobile-icon"src="static/img/extras/phone.png">
-            </div>
-            <div class = "pc-button">
-                <img class = "pc-icon"src="static/img/extras/display.png">
-            </div>
-            </div>
-
-            <!-- android or ios checkbox -->
-            <label class="checkbox-container">
-              <input type="checkbox" checked="checked">
-              <span class="checkmark"></span>
-              android
-            </label>
-            
-            <label class="checkbox-container">
-              <input type="checkbox">
-              <span class="checkmark"></span>ios
-            </label>
-           
-            
-          <!-- moentary -->
-            <div class = "sidebar-label"><p>Monetary</p></div>
-            <label class="checkbox-container">
-              <input type="checkbox" checked="checked">
-              <span class="checkmark"></span>
-              free
-            </label>
-            
-            <label class="checkbox-container">
-              <input type="checkbox">
-              <span class="checkmark"></span>paid
-            </label>
-            <label class="checkbox-container">
-              <input type="checkbox">
-              <span class="checkmark"></span>in-app purchases
-            </label>
-          <!-- batch filtering -->
-          <div class = "sidebar-label"><p>Batch</p></div>
+           <!-- batch filtering -->
+           <form class="filter-form" method="POST" action="" enctype="multipart/form-data">
+              {% csrf_token %}
           <div class = "batch">
-            <input type="number"  min = "0" max = "28" class = "batch-filter">
+              <div class = "sidebar-label"><p>Batch filter: </p></div>
+            <input type="number" name="min-batch" min = "0" max = "30" class = "batch-filter">
             <p>-</p>
-            <input type="number"  min = "0" max = "28" class = "batch-filter">
+            <input type="number" name="max-batch" min = "0" max = "30" class = "batch-filter">
+              <button class="batch-filter-btn"></button>
           </div>
-
-        </nav>
+           </form>
         
         <!-- this div contains the whole body part of application section -->
         <div class = "app-preview">
@@ -71,57 +31,60 @@
           </div>
 
           <!-- grid box for app in a same category -->
-          <div class = "app-container">
+          <div class = "top-chart-app-container">
             
-            <!-- properties of a single app (image name rating) -->
-            {% for app in top_chart_apps %}
-            <div class = "single-app"> 
+<!--             properties of a single app (image name rating) -->
+            {% for item in top_chart_apps %}
+              <a href="{% url 'projectPage' item.app.id %}">
+            <div class = "single-app">
               <div class = "app-numbering">
-                  <p>{{app.id}}. </p>
+                  <p>{{item.id}}. </p>
               </div>
               <div class="app-image">
-                <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                <img class = "app-icon" src = "{{item.app.logo_img.url}}">
               </div>
               <div class = "app-name">
-                <p>{{app.name}}</p>
+                <p>{{item.app.title}}</p>
                 <div class = "app-rating">
                   <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{app.rating}}</p>
+                  <p>{{item.app.rate}}</p>
                 </div>
               </div>
            </div>
+              </a>
            {% endfor %}
           </div>
-          {% for category in categorical %}
+
           <!-- apps in educational category -->
           <div class ="app-category-header">
-            <p>{{category.name}}</p>
+            <p>All apps</p>
           </div>
           <div class = "app-container">
-            {% if category.apps is null %}
+            {% if general_apps is null %}
               <div class=" app-container">
                 <div class = "no-apps-text"> <p>no apps yet</p> </div>
               </div>
 
             {% else %}
-            {% for app in category.apps %}
+            {% for app in general_apps %}
+              <a href="{% url 'projectPage' app.id %}">
             <div class = "single-app"> 
               <div class="app-image">
-                <img class = "app-icon" src = "static/img/apps/renshuu.webp">
+                <img class = "app-icon" src = "{{app.logo_img.url}}">
               </div>
               <div class = "app-name">
-                <p>{{app.name}}</p>
+                <p>{{app.title}}</p>
                 <div class = "app-rating">
                   <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{app.rating}}</p>
+                  <p>{{app.rate}}</p>
                 </div>
               </div>
            </div>
+              </a>
            {% endfor %}
            {% endif %}
 
           </div>
-          {% endfor %}
         </div>
        </section>
     </main>

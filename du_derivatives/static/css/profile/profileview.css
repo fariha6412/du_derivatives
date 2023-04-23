@@ -8,10 +8,8 @@
     right: 0;
     bottom: 60px;
     top: 120px;
-    background-color: white;
     width: 25%;
     padding-top: 5px;
-    overflow-y: scroll;
     overflow-x: hidden;
     border-right: 1px solid rgb(61, 60, 60);
 }
@@ -40,6 +38,7 @@
 .name-text{
     color: rgb(45, 45, 91);
     padding-bottom: 5px;
+    font-size: 24px;
 }
 .batch-name{
     padding-bottom: 30px;
@@ -50,7 +49,7 @@
     background-color: rgb(49, 69, 137);
     border-radius: 10px;
     color: white;
-    font-size: small;
+    font-size: 16px;
     border-color: transparent;
 }
 

@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <main>
+       <section class="application-add-section">
+           <form class="login-form" method="POST" action="" enctype="multipart/form-data">
+               {% csrf_token %}
+        <div class='app-add-container'>
+          <div class="app-fields-container">
+              {{form.title}}
+              {{form.logo_img}}
+              {{form.github_link}}
+              {{form.demo_link}}
+              {{form.about}}
+              {{form.deployed_link}}
+              {{form.type}}
+<!--              {{form.tags}}-->
+<!--              {{form.collaborators}}-->
+              <button>Save</button>
+          </div>
+        </div>
+           </form>
+
+       </section>
+    </main>
+
+{% endblock %}

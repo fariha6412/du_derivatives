@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+# from base.views import *
+
 from base.views import *
 
 urlpatterns = [
@@ -10,6 +12,6 @@ urlpatterns = [
     path('logout', logoutUser, name='logout'),
     path('signup', signup, name='signup'),
     path('profile', profile, name='profile'),
-    path('addApp', addApp, name='addApp'),
-    path('addWebsite', addWebsite, name='addWebsite'),
+    path('addProject', addProject, name='addProject'),
+    path('projectPage-<str:pk>', projectPage, name='projectPage'),
 ]

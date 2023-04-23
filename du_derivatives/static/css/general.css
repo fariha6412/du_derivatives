@@ -9,8 +9,14 @@ p {
     margin: 0;
     padding-top: 80px;
     padding-right: 24px;
-    background-color: white;
+    background-color: #fafafa;;
+    padding-bottom: 50px;
   }
   label{
     font-size: 14px;
   }
+
+  a {
+    cursor: pointer;
+    text-decoration: none;
+}

@@ -15,7 +15,7 @@
       <div class="form">
         <form class="login-form" method="POST" action="">
           {% csrf_token %}
-          <input type="text" placeholder="email_address" name="username"/>
+          <input type="email" placeholder="email_address" name="username"/>
             {% if messages %}
             <div class="messages">{% for message in messages %}<p>{{ message }}</p><br>{% endfor %}</div>
             {% endif %}

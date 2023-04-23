@@ -11,16 +11,20 @@
                     <p> <strong>{{request.user.name}}</strong></p>
                 </div>  
                 <div class = "batch-name">
-                    <p> batch: {{request.user.csedu_batch}}</p>
+                    <p> CSEDU-batch: {{request.user.csedu_batch}}</p>
                 </div>
                     <button class = "edit-profile-btn"> edit profile</button>
-                </div>
             </div>
         </div>
-        
+
         <main class = "profile-main">
         <div class = "my-poject-text">
             <p> My projects</p>
+            <a href="{% url 'addProject' %}">
+                <button class = "plus-button">
+                    <img class = "plus-icon" src = "static/img/extras/plus-sign-white.png"><p>Add Project</p>
+                </button>
+            </a>
         </div>
 
 
@@ -28,15 +32,9 @@
             <!-- choosing between apps or websites -->
             <div class = "application-selected">
                 <button class = "application-button">Applications</button>
-                <button class = "plus-button">
-                    <img class = "plus-icon" src = "static/img/extras/plus-512.webp">
-                </button>
             </div>
             <div class = "website-selected">
                 <button class = "website-button">Websites</button>
-                <button class = "plus-button">
-                    <img class = "plus-icon" src = "static/img/extras/plus-512.webp">
-                </button>
             </div>
         </div>
 
@@ -48,10 +46,8 @@
             <div class = "app-container">
               {% for pair in apps %}
               <!-- properties of a single app (image name rating) -->
+                <a href="{% url 'projectPage' pair.app.id %}">
               <div class = "single-app">
-                <div class = "app-numbering">
-                    <p>{{pair.i}}. </p>
-                </div>
                 <div class="app-image">
                   <img class = "app-icon" src ={{pair.app.logo_img.url}}>
                 </div>
@@ -63,6 +59,7 @@
                   </div>
                 </div>
              </div>
+                    </a>
              {% endfor %}
             </div>
         </div>
