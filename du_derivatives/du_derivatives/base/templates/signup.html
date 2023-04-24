@@ -1,31 +1,4 @@
 <!DOCTYPE html>
-
-<style>
-    .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 350px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  text-size: 9px;
-  border-radius: 6px;
-  padding: 5px 0;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-</style>
 <html lang="en" >
 <head>
 
@@ -39,8 +12,14 @@
     <div class="login-page">
         <div class="form">
           <form class="login-form" method="POST" enctype="multipart/form-data">
-                <div class="tooltip">i
-                  <span class="tooltiptext">
+              {% csrf_token %}
+               {% for field in form %}
+          <div class="form__group form__group">
+            {{field}}
+          </div>
+          {% endfor %}
+              <div class="password-checker">
+                  <span class="password-checker-sp">
                       <ul>
                           <li>Password must be of length 8</li>
                           <li>Password must have at least 1 uppercase</li>
@@ -49,17 +28,9 @@
                       </ul>
                   </span>
                 </div>
-              {% csrf_token %}
-               {% for field in form %}
-          <div class="form__group form__group">
-            {{field}}
-          </div>
-          {% endfor %}
-<!--              <input type="text" placeholder="username" name="username"/>-->
-<!--            <input type="text" placeholder="email_address" name="email_address"/>-->
-<!--              <input type="number" placeholder="csedu_batch" name="csedu_batch"/>-->
-<!--              <input type="password" placeholder="password1" name="password2"/>-->
-<!--              <input type="re-password" placeholder="password2" name="re-password1"/>-->
+                {% if messages %}
+                <div class="messages">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>
+                {% endif %}
             <button>create</button>
             <p class="message">Already registered? <a href="login">Sign In</a></p>
           </form>

@@ -16,6 +16,7 @@
     background-color: transparent;
     color: rgb(104, 100, 100);
     z-index: inherit;
+    font-size: 18px;
 }
 .website-button{
     border-bottom: 1px solid black;
@@ -25,6 +26,7 @@
     background-color: transparent;
     color: rgb(104, 100, 100);
     z-index: inherit;
+    font-size: 18px;
 
 }
 

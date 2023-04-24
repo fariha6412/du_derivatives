@@ -16,10 +16,11 @@
         <form class="login-form" method="POST" action="">
           {% csrf_token %}
           <input type="email" placeholder="email_address" name="username"/>
-            {% if messages %}
-            <div class="messages">{% for message in messages %}<p>{{ message }}</p><br>{% endfor %}</div>
-            {% endif %}
+
           <input type="password" placeholder="password" name="password"/>
+          {% if messages %}
+            <div class="messages">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>
+            {% endif %}
           <button>login</button>
           <p class="message">Forgot password? <a href="signup">reset</a></p>
 

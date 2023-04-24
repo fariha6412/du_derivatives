@@ -1,15 +1,13 @@
 .footer {
-    height: 30px;
+    height: 40px;
   
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-  
-    position: fixed;
-    bottom: 0;
+    margin-top: 30px;
+    position: absolute;
     left: 0;
     right: 0;
-    z-index: 10;
   
     background-color: rgb(48, 48, 152);
   }
@@ -31,20 +29,23 @@
     flex:1;
     justify-content: right;
   }
-
-  .mail-button, .message-button, .linkedin-button {
-    height: 20px;
-    background-color: transparent;
+.left:after {
+    content: "";
+    background-color: #fefefe;
+    position: absolute;
+    width: 1px;
+    height: 30px;
+    top: 5px;
+    bottom: 5px;
+    left: 50%;
+    display: block;
+    border-radius: 5px;
+}
+.contact-btn, .contact-github-btn{
+    padding: 8px;
     border: none;
-    border-color: transparent;
+    background: none;
+    color: white;
     cursor: pointer;
-  }
-  
-  .mail-icon, .message-icon, .linkedin-icon{
-    height: 20px;
-    object-fit: contain;
-    border-radius: 2px;
-  }
-  .mail-icon:hover, .message-icon:hover, .linkedin-icon:hover{
-    height: 22px;
-  }
+}
+

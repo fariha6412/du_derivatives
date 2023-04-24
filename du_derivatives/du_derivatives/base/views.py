@@ -17,18 +17,20 @@ def home(request):
         max_batch = request.POST['max-batch']
         for pt in projectTypes:
             projects[pt.name] = Project.objects.none()
-            if not max_batch:
-                users = User.objects.filter(csedu_batch__gte=min_batch)
-            if not min_batch:
-                users = User.objects.filter(csedu_batch__lte=max_batch)
-            else:
+            try:
                 users = User.objects.filter(csedu_batch__gte=min_batch, csedu_batch__lte=max_batch)
+            except:
+                try:
+                    users = User.objects.filter(csedu_batch__gte=min_batch)
+                except:
+                    users = User.objects.filter(csedu_batch__lte=max_batch)
+
             for user in users:
                 projects[pt.name] = Project.objects.filter(type=pt) & Project.objects.filter(developer=user)
             i = 0
             top_apps[pt.name] = []
             for pr in projects[pt.name].order_by('rate'):
-                top_apps[pt.name] += [{'id': i+1, 'app': pr}]
+                top_apps[pt.name] += [{'id': i + 1, 'app': pr}]
                 i += 1
                 if i == 10:
                     break
@@ -38,12 +40,13 @@ def home(request):
             i = 0
             top_apps[pt.name] = []
             for pr in projects[pt.name].order_by('rate'):
-                top_apps[pt.name] += [{'id': i+1, 'app': pr}]
+                top_apps[pt.name] += [{'id': i + 1, 'app': pr}]
                 i += 1
                 if i == 10:
                     break
 
-    return render(request, 'homepage.html', {'top_chart_apps': top_apps['Application'], 'general_apps': projects['Application']})
+    return render(request, 'homepage.html',
+                  {'top_chart_apps': top_apps['Application'], 'general_apps': projects['Application']})
 
 
 @login_required(login_url='login')
@@ -65,16 +68,15 @@ def loginUser(request):
             username = request.POST['username']
             password = request.POST.get('password')
 
-            print(username, password)
-
             try:
-                # user = User.objects.get(username=username)
+                user = User.objects.get(username=username)
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     login(request, user)
                     return redirect('home')
             except:
                 messages.error(request, 'Username or password doesn\'t exist.')
+                return redirect('login')
 
     return render(request, 'login.html')
 
@@ -96,8 +98,10 @@ def signup(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'An error has occurred')
+            messages.error(request, 'Re-check everything')
             # print(form.errors.as_data())
+            return redirect('signup')
+
     form = MyUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
@@ -158,7 +162,7 @@ def projectPage(request, pk):
                     return redirect('projectPage', pk)
             except:
                 messages.error(request, 'No user found')
-                print("no user found")
+                # print("no user found")
 
         # for adding tag
         if request.POST.get('tag', False):

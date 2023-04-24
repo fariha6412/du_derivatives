@@ -14,7 +14,6 @@
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
-  text-align: center;
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
@@ -52,6 +51,7 @@
   margin: 15px 0 0;
   color: #1f1e1e;
   font-size: 12px;
+  text-align: center;
 }
 .form .message a {
   color: #31219d;
@@ -104,3 +104,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.password-checker {
+    font-size: 12px;
+}
+
+.password-checker .password-checker-sp{
+
+}
+
+.password-checker .password-checker-sp ul{
+
+}
+
+.password-checker .password-checker-sp ul li{
+
+}
+
+.messages p{
+    font-size: 12px;
+    text-align: center;
+    color: red;
+}

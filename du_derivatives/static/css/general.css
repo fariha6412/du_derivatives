@@ -8,9 +8,7 @@ p {
     font-family: Roboto, Arial;
     margin: 0;
     padding-top: 80px;
-    padding-right: 24px;
-    background-color: #fafafa;;
-    padding-bottom: 50px;
+    background-color: #fafafa;
   }
   label{
     font-size: 14px;
@@ -19,4 +17,8 @@ p {
   a {
     cursor: pointer;
     text-decoration: none;
+}
+
+main {
+    position: relative;
 }
