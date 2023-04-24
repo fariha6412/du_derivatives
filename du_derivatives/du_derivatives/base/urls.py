@@ -14,4 +14,6 @@ urlpatterns = [
     path('profile', profile, name='profile'),
     path('addProject', addProject, name='addProject'),
     path('projectPage-<str:pk>', projectPage, name='projectPage'),
+
+    path('appDetails', appDetails, name='appDetails'),
 ]

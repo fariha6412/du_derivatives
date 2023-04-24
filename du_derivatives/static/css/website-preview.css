@@ -1,113 +1,90 @@
-.app-preview{
-    padding-left: 40px;
-    padding-right: 20px;
-}
-
-.profile-app-preview{
-  margin-top: 20px;
-}
-.app-category-header{
-    color: rgb(28, 46, 110);
-
-}
-
-.container {
-  padding: 2px 16px;
-}
-
-
-.top-chart-app-container{
+.top-chart-web-container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 3%;
+    column-gap: normal;
     row-gap: 15%;
     margin-top: 3%;
     margin-bottom: 3%;
 
 }
 @media (max-width: 600px) {
-    .top-chart-app-container {
+    .top-chart-web-container {
       grid-template-columns: 1fr 1fr 1fr;
     }
   }
   @media (min-width: 601px) and (max-width: 850px) {
-    .top-chart-app-container {
+    .top-chart-web-container {
       grid-template-columns: 1fr 1fr 1fr 1fr;
     }
   }
 
 
-.top-chart-app-container .single-app{
+.top-chart-web-container .single-web{
     display: flex;
     flex-direction: row;
     z-index: 1;
-    min-height: 100%;
+
 }
 
-.top-chart-app-container .app-numbering{
-  padding-top: 9%;
+.top-chart-web-container .web-numbering{
+  align-items: center;
+  padding-top: 10px;
   padding-right: 10px;
 }
-.top-chart-app-container .app-image{
+.top-chart-web-container .web-image{
     width: 20%;
 }
 
-.top-chart-app-container .app-icon{
+.top-chart-web-container .web-icon{
     width: 100%;
     object-fit: contain;
 }
-.top-chart-app-container .app-name{
+.top-chart-web-container .web-name{
     flex: 1;
     padding-left: 5%;
     padding-top: 2%;
     font-size: 14px;
 }
 
-.top-chart-app-container .app-name p {
+.top-chart-web-container .web-name p {
     color: rgb(71 69 69);
     font-weight: bold;
     overflow-wrap: anywhere;
     padding-left: 8px;
-    height: 50%;
 }
 
-.top-chart-app-container .star-icon{
-  width: 12%;
-  padding-left: 8px;
+.top-chart-web-container .star-icon{
+  width: 15px;
+  padding: 5px;
 }
 
-
-.top-chart-app-container .app-rating{
+.top-chart-web-container .web-rating{
   display:flex;
   flex-direction: row;
   align-items: center;
+}
 
-}
-.top-chart-app-container .app-rating p{
-    font-size: 10px;
-    font-weight: normal;
-}
-.app-container{
+.web-card-container{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     column-gap: 7%;
     row-gap: 15%;
     margin-top: 3%;
     margin-bottom: 3%;
 }
 @media (max-width: 600px) {
-    .app-container {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+    .web-card-container {
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
   @media (min-width: 601px) and (max-width: 850px) {
-    .app-container {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    .web-card-container {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
     }
   }
 
 
-.app-container .single-app{
+.web-card-container .single-web-card{
     display: flex;
     z-index: 1;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -119,50 +96,70 @@
     text-align: center;
     height: 100%;
 }
-.app-container .app-image{
-    width: 50%;
-    height: 60%;
+.web-card-container .single-web-card a {
+    height: 45%;
 }
-.app-container .app-icon{
-    width: 80%;
+.web-card-container .web-image{
+    width: 100%;
+    height: 80%;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+}
+
+.web-card-container .web-icon{
+    width: 80px;
+    height: 80px;
     object-fit: contain;
+    display: flex;
 }
-.app-container .app-name{
+.web-card-container .web-name{
     flex: 1;
     padding: 5%;
     font-size: 14px;
 }
 
-.app-container .app-name p {
+.web-card-container .web-name p {
     color: rgb(71 69 69);
     font-weight: bold;
     overflow-wrap: anywhere;
 }
 
-.app-container .star-icon{
+.web-card-container .star-icon{
   width: 12px;
   padding: 5px;
 }
 
-.app-container .app-rating{
+.web-card-container .web-rating{
   display:flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  font-weight: normal;
+  font-size: 10px;
 }
 
-.app-container .app-rating p{
+.web-card-container .web-card-details .web-title p{
+    color: rgb(48 48 152);
+    font-size: 18px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    padding: 3px;
+}
+
+.web-description p{
     font-size: 10px;
-    font-weight: normal;
+    overflow-wrap: anywhere;
+    padding: 3px;
 }
 
-.no-app-container{
+.no-web-container{
     width: 40%;
     display: inline-block;
     margin-left: 30%;
     margin-top: 20%;
 }
-.no-app-text{
+.no-web-text{
   border-color: rgb(71, 69, 69);
   border: solid 1px;
   border-radius: 10px;
@@ -172,7 +169,3 @@
   justify-content: center;
 
 }
-
-
-
-

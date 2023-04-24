@@ -9,53 +9,62 @@ from .models import Project, User, Photo, Review, Reply, ProjectType
 
 
 def home(request):
-    projectTypes = ProjectType.objects.all()
-    projects = {}
+    if request.GET.get('Website') == 'Websites':
+        type = 'Website'
+    else:
+        type = 'Application'
+    projectType = ProjectType.objects.get(name=type)
     top_apps = {}
     if request.method == "POST":
         min_batch = request.POST['min-batch']
         max_batch = request.POST['max-batch']
-        for pt in projectTypes:
-            projects[pt.name] = Project.objects.none()
+        projects = Project.objects.none()
+        try:
+            users = User.objects.filter(csedu_batch__gte=min_batch, csedu_batch__lte=max_batch)
+        except:
             try:
-                users = User.objects.filter(csedu_batch__gte=min_batch, csedu_batch__lte=max_batch)
+                users = User.objects.filter(csedu_batch__gte=min_batch)
             except:
-                try:
-                    users = User.objects.filter(csedu_batch__gte=min_batch)
-                except:
-                    users = User.objects.filter(csedu_batch__lte=max_batch)
+                users = User.objects.filter(csedu_batch__lte=max_batch)
 
-            for user in users:
-                projects[pt.name] = Project.objects.filter(type=pt) & Project.objects.filter(developer=user)
-            i = 0
-            top_apps[pt.name] = []
-            for pr in projects[pt.name].order_by('rate'):
-                top_apps[pt.name] += [{'id': i + 1, 'app': pr}]
-                i += 1
-                if i == 10:
-                    break
+        for user in users:
+            projects = Project.objects.filter(type=projectType) & Project.objects.filter(developer=user)
+        i = 0
+        top_apps = []
+        for pr in projects.order_by('rate'):
+            top_apps += [{'id': i + 1, 'app': pr}]
+            i += 1
+            if i == 10:
+                break
     else:
-        for pt in projectTypes:
-            projects[pt.name] = Project.objects.filter(type=pt)
-            i = 0
-            top_apps[pt.name] = []
-            for pr in projects[pt.name].order_by('rate'):
-                top_apps[pt.name] += [{'id': i + 1, 'app': pr}]
-                i += 1
-                if i == 10:
-                    break
-
+        projects = Project.objects.filter(type=projectType)
+        i = 0
+        top_apps = []
+        for pr in projects.order_by('rate'):
+            top_apps += [{'id': i + 1, 'app': pr}]
+            i += 1
+            if i == 10:
+                break
+    project_count = projects.count()
     return render(request, 'homepage.html',
-                  {'top_chart_apps': top_apps['Application'], 'general_apps': projects['Application']})
+                  {'top_chart_apps': top_apps, 'general_apps': projects,
+                   'selected_text': type, 'project_count' : project_count})
 
 
 @login_required(login_url='login')
 def profile(request):
-    projects = Project.objects.filter(developer=request.user)
+    if request.GET.get('Website') == 'Websites':
+        type = 'Website'
+    else:
+        type = 'Application'
+
+    projectType = ProjectType.objects.get(name=type)
+    projects = Project.objects.filter(developer=request.user) & Project.objects.filter(type=projectType)
+    project_count = projects.count()
     apps = []
     for i, project in enumerate(projects):
         apps += [{'i': i + 1, 'app': project}]
-    return render(request, 'profile.html', {'apps': apps})
+    return render(request, 'profile.html', {'apps': apps, 'selected_text': type, 'project_count' : project_count})
 
 
 def loginUser(request):
@@ -69,7 +78,7 @@ def loginUser(request):
             password = request.POST.get('password')
 
             try:
-                user = User.objects.get(username=username)
+                # user = User.objects.get(email=username)
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     login(request, user)
@@ -189,3 +198,7 @@ def projectPage(request, pk):
     return render(request, 'projectPage.html',
                   {'project': project, 'photos': photos, 'tags': tags, 'collaborators': collaborators,
                    'reviews': reviews, 'review_count': review_count})
+
+
+def appDetails(request):
+    return render(request, 'appDetails.html')

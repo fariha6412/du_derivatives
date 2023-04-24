@@ -119,12 +119,13 @@
 }
 .batch{
     display: flex;
-    width: 27%;
+    width: 0%;
     margin-left: auto;
     margin-right: 0;
-    margin-top: 20px;
-    margin-bottom: 0px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     gap: 10px;
+    justify-content: flex-end;
 }
 .batch-fiter{
   padding: 0;

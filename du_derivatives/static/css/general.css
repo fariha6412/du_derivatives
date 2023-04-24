@@ -19,6 +19,9 @@ p {
     text-decoration: none;
 }
 
+button {
+    cursor: pointer;
+}
 main {
     position: relative;
 }
