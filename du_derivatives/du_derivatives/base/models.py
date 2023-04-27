@@ -17,7 +17,7 @@ class User(AbstractUser):
 
 
 class ProjectType(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -27,7 +27,7 @@ class ProjectType(models.Model):
 # Create your models here.
 class Project(models.Model):
     developer = models.ForeignKey(User, on_delete=models.CASCADE, default='')
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100)
     type = models.ForeignKey(ProjectType, on_delete=models.CASCADE, default='')
     date_added = models.DateTimeField(auto_now_add=True)
@@ -46,13 +46,13 @@ class Project(models.Model):
 
 
 class Photo(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     photo = models.ImageField(unique=True, default='')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default='')
 
 
 class Review(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_added = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(default="")
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default='')
@@ -66,6 +66,7 @@ class Reply(models.Model):
 
 
 class Rating(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default='')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
     star = models.IntegerField(default=0)

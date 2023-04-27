@@ -36,7 +36,9 @@
     text-decoration: none!important;
     cursor: pointer;
   }
-  
+  .header-search{
+    width: 40%;
+  }
   .middle-section {
     flex: 1;
     max-width: 500px;
@@ -135,8 +137,11 @@
   }
 
   .header-profile-icon{
-    height: 50px;
+    height: 40px;
     border-radius: 50%;
+    border-color: rgb(48 48 152);
+    border-style: inset;
+    border-width: unset;
   }
 
 

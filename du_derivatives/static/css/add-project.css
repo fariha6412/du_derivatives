@@ -1,0 +1,85 @@
+.application-add-section{
+    display: flex;
+    justify-content: center;
+}
+
+.app-add-container{
+    display: flex;
+}
+
+
+.app-fields-container{
+	display: flex;
+	flex-direction: column;
+}
+
+.input-field {
+    display:flex;
+    justify-content: space-between;
+}
+
+
+.input-field p{
+}
+.choice-field{
+    display:flex;
+    justify-content: space-between;
+    margin: 0 0 10px;
+}
+
+.choice-field p{
+}
+
+.upload-field{
+    display:flex;
+    justify-content: space-between;
+}
+
+.upload-field p{
+    width:140px;
+}
+
+.project-add-form{
+
+}
+
+.project-add-form .input-field input{
+    font-family: "Roboto", sans-serif;
+    border-bottom: px;
+    border-width: 0px 0px 2px 0px;
+    margin: 0 0 10px;
+    padding: 6px;
+    font-size: 14px;
+}
+
+.project-add-form .upload-field input{
+    margin: 0 0 10px;
+}
+
+.project-add-form select{
+
+}
+
+.project-add-form option{
+
+}
+
+.project-add-form button{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: rgb(28, 46, 110);
+    width: 60%;
+    margin-top: 20px;
+    border: 0;
+    padding: 11px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.save-project-btn{
+    text-align: center;
+}

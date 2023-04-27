@@ -4,11 +4,13 @@ from django.db.models import Q
 from django.db.models import Max, Min
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import MyUserCreationForm, AppForm
+from .forms import MyUserCreationForm, AppForm, UserForm
 from .models import Project, User, Photo, Review, Reply, ProjectType
 
 
 def home(request):
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+
     if request.GET.get('Website') == 'Websites':
         type = 'Website'
     else:
@@ -28,7 +30,9 @@ def home(request):
                 users = User.objects.filter(csedu_batch__lte=max_batch)
 
         for user in users:
-            projects = Project.objects.filter(type=projectType) & Project.objects.filter(developer=user)
+            projects = Project.objects.filter(type=projectType) & Project.objects.filter(developer=user) & (
+                        Project.objects.filter(title__icontains=q) | Project.objects.filter(
+                    tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
         for pr in projects.order_by('rate'):
@@ -37,7 +41,9 @@ def home(request):
             if i == 10:
                 break
     else:
-        projects = Project.objects.filter(type=projectType)
+        projects = Project.objects.filter(type=projectType) & (
+                    Project.objects.filter(title__icontains=q) | Project.objects.filter(
+                tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
         for pr in projects.order_by('rate'):
@@ -48,7 +54,7 @@ def home(request):
     project_count = projects.count()
     return render(request, 'homepage.html',
                   {'top_chart_apps': top_apps, 'general_apps': projects,
-                   'selected_text': type, 'project_count' : project_count})
+                   'selected_text': type, 'project_count': project_count})
 
 
 @login_required(login_url='login')
@@ -64,7 +70,7 @@ def profile(request):
     apps = []
     for i, project in enumerate(projects):
         apps += [{'i': i + 1, 'app': project}]
-    return render(request, 'profile.html', {'apps': apps, 'selected_text': type, 'project_count' : project_count})
+    return render(request, 'profile.html', {'apps': apps, 'selected_text': type, 'project_count': project_count})
 
 
 def loginUser(request):
@@ -108,7 +114,6 @@ def signup(request):
             return redirect('home')
         else:
             messages.error(request, 'Re-check everything')
-            # print(form.errors.as_data())
             return redirect('signup')
 
     form = MyUserCreationForm()
@@ -133,6 +138,19 @@ def addProject(request):
 
 
 @login_required(login_url='login')
+def userUpdate(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+
+    return render(request, 'userUpdate.html', {'form': form})
+
+
 def projectPage(request, pk):
     project = Project.objects.get(pk=pk)
     photos = Photo.objects.filter(project=project)

@@ -12,6 +12,7 @@ urlpatterns = [
     path('logout', logoutUser, name='logout'),
     path('signup', signup, name='signup'),
     path('profile', profile, name='profile'),
+    path('userUpdate', userUpdate, name='userUpdate'),
     path('addProject', addProject, name='addProject'),
     path('projectPage-<str:pk>', projectPage, name='projectPage'),
 

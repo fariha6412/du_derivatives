@@ -3,20 +3,19 @@
 {% block content %}
     <main>
        <section class="application-add-section">
-           <form class="login-form" method="POST" action="" enctype="multipart/form-data">
+           <form class="project-add-form" method="POST" action="" enctype="multipart/form-data">
                {% csrf_token %}
         <div class='app-add-container'>
           <div class="app-fields-container">
-              {{form.title}}
-              {{form.logo_img}}
-              {{form.github_link}}
-              {{form.demo_link}}
+              <div class="input-field"><p>Title </p> {{form.title}}</div>
+              <div class="input-field"><p>Github link </p>{{form.github_link}}</div>
+              <div class="input-field"><p>Demo video link </p>{{form.demo_link}}</div>
+
+              <div class="input-field"><p>Hosted/apk link </p>{{form.deployed_link}}</div>
+              <div class="choice-field"><p>Project type </p>{{form.type}}</div>
+              <div class="upload-field"><p>Project logo </p>{{form.logo_img}}</div>
               {{form.about}}
-              {{form.deployed_link}}
-              {{form.type}}
-<!--              {{form.tags}}-->
-<!--              {{form.collaborators}}-->
-              <button>Save</button>
+              <div class="save-project-btn"> <button>Save</button></div>
           </div>
         </div>
            </form>

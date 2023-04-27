@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="static/css/general.css">
     <link rel="stylesheet" href="static/css/chooseoption.css">
     <link rel="stylesheet" href="static/css/app-preview.css">
+    <link rel="stylesheet" href="static/css/add-project.css">
 
     <link rel="stylesheet" href="static/css/app-details/app-details.css">
 
@@ -33,14 +34,16 @@
         <a href="{% url 'home' %}"> <p class="title"> <b>CSEDU derivatives</b> </p></a>
       </div>
       <!-- middle section for search bar and search icon -->
+      <form class="header-search" method="GET" action="{% url 'home' %}">
       <div class="middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
+
+        <input class="search-bar" name="q" type="text" placeholder="Search">
         <button class="search-button">
           <img class="search-icon" src="static/img/extras/search-icon.png">
           <div class="tooltip">Search</div>
         </button>
-
       </div>
+      </form>
 
       <!-- for login and signup button -->
       <div class="right-section">
