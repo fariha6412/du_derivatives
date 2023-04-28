@@ -41,7 +41,7 @@
             {% if selected_text == 'Application' %}
             {% if project_count == 0 %}
               <div class="no-app-container">
-                <div class = "no-app-text"> <p>no app yet</p> </div>
+                <div class = "no-app-text"> <p>no app found</p> </div>
               </div>
 
             {% else %}
@@ -69,7 +69,7 @@
 
             {% if project_count == 0 %}
               <div class="no-web-container">
-                <div class = "no-web-text"> <p>no website yet</p> </div>
+                <div class = "no-web-text"> <p>no website found</p> </div>
               </div>
 
             {% else %}
@@ -88,7 +88,7 @@
                   <img class = "star-icon" src = "static/img/extras/star.png">
                   <p>{{pair.app.rate}}</p>
                 </div>
-                  <div class="web-description"><p> small description of the website to get you intrigued dfddggdbgn</p></div>
+                  <div class="web-description"><p>{{pair.app.about|slice:"0:100"}}</p></div>
 
               </div>
            </div>

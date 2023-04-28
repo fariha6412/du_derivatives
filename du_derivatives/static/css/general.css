@@ -9,7 +9,9 @@ p {
     margin: 0;
     padding-top: 80px;
     background-color: #fafafa;
+    margin-bottom: 50px;
   }
+
   label{
     font-size: 14px;
   }
