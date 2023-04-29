@@ -9,6 +9,8 @@ class User(AbstractUser):
     profile_picture = models.ImageField(null=True, default='person.png')
     csedu_batch = models.IntegerField(default='')
 
+    is_email_verified = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'name', 'csedu_batch']
 

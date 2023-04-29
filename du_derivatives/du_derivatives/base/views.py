@@ -1,11 +1,19 @@
+import os
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.db.models import Q
-from django.db.models import Max, Min
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text, force_str, DjangoUnicodeDecodeError
+from django.core.mail import EmailMessage
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import MyUserCreationForm, AppForm, UserForm
+from .forms import MyUserCreationForm, ProjectForm, UserForm
 from .models import Project, User, Photo, Review, Reply, ProjectType
+from .utils import generate_token
+
+from django.utils.safestring import mark_safe
 
 
 def home(request):
@@ -31,8 +39,8 @@ def home(request):
 
         for user in users:
             projects = Project.objects.filter(type=projectType) & Project.objects.filter(developer=user) & (
-                        Project.objects.filter(title__icontains=q) | Project.objects.filter(
-                    tags__icontains=q) | Project.objects.filter(about__icontains=q))
+                    Project.objects.filter(title__icontains=q) | Project.objects.filter(
+                tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
         for pr in projects.order_by('rate'):
@@ -42,8 +50,8 @@ def home(request):
                 break
     else:
         projects = Project.objects.filter(type=projectType) & (
-                    Project.objects.filter(title__icontains=q) | Project.objects.filter(
-                tags__icontains=q) | Project.objects.filter(about__icontains=q))
+                Project.objects.filter(title__icontains=q) | Project.objects.filter(
+            tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
         for pr in projects.order_by('rate'):
@@ -87,6 +95,11 @@ def loginUser(request):
                 # user = User.objects.get(email=username)
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
+                    if not user.is_email_verified:
+                        messages.success((request,
+                                          f'Please verify your email. Check your spam folder also'))
+                        return redirect('login')
+
                     login(request, user)
                     return redirect('home')
             except:
@@ -99,24 +112,64 @@ def loginUser(request):
 @login_required(login_url='login')
 def logoutUser(request):
     logout(request)
-    return redirect('profile')
+    return redirect('home')
 
 
+def activate_user(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+    except:
+        user = None
+
+    if user and generate_token.check_token(user, token):
+        user.is_email_verified = True
+        user.save()
+
+        messages.error(request, 'Email verified, you can login now.')
+        return redirect('login')
+
+    return render(request, 'activate-failed.html', {'user': user})
+
+
+def send_action_email(user, request):
+    current_site = get_current_site(request)
+    email_subject = 'Activate your CSEDU_derivatives account'
+    email_body = render_to_string('activate.html', {
+        'user': user,
+        'domain': current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': generate_token.make_token(user)
+    })
+
+    email = EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER,
+                         to=[user.email])
+
+    email.send()
+
+
+# @user_not_authenticated
 def signup(request):
     form = MyUserCreationForm()
+
     if request.method == 'POST':
         form = MyUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
-            login(request, user)
-            return redirect('home')
+            send_action_email(user, request)
+            messages.error(request, 'Please go to your email to verify. Check your spam folder also')
+
+            # login(request, user)
+            return redirect('login')
         else:
-            messages.error(request, 'Re-check everything')
+            for field in form:
+                for error in field.errors:
+                    messages.error(request, str(mark_safe(error)))
             return redirect('signup')
 
-    form = MyUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 
@@ -124,7 +177,7 @@ def signup(request):
 def addProject(request):
     developer = request.user
     if request.method == 'POST':
-        form = AppForm(request.POST, request.FILES)
+        form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
             project.developer = developer
@@ -132,8 +185,8 @@ def addProject(request):
             return redirect('projectPage', pk=project.id)
         else:
             messages.error(request, 'An error has occurred')
-            print(form.errors.as_data())
-    form = AppForm()
+
+    form = ProjectForm()
     return render(request, 'addProject.html', {'form': form})
 
 
@@ -141,16 +194,33 @@ def addProject(request):
 def userUpdate(request):
     user = request.user
     form = UserForm(instance=user)
-
+    old_image = user.profile_picture
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            if old_image != user.profile_picture:
+                os.remove(old_image.path)
             return redirect('profile')
 
     return render(request, 'userUpdate.html', {'form': form})
 
 
+@login_required(login_url='login')
+def projectUpdate(request, pk):
+    project = Project.objects.get(id=pk)
+    form = ProjectForm(instance=project)
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+
+    return render(request, 'addProject.html', {'form': form})
+
+
+@login_required(login_url='login')
 def projectPage(request, pk):
     project = Project.objects.get(pk=pk)
     photos = Photo.objects.filter(project=project)
@@ -201,7 +271,6 @@ def projectPage(request, pk):
         # for uploading images
         if request.FILES:
             files = request.FILES.getlist('files')
-            file_list = []
 
             for file in files:
                 new_photo_file = Photo.objects.create(
@@ -218,5 +287,32 @@ def projectPage(request, pk):
                    'reviews': reviews, 'review_count': review_count})
 
 
+@login_required(login_url='login')
+def deletePhoto(request, pk):
+    photo = Photo.objects.get(id=pk)
+    photoPath = photo.photo.path
+    photo.delete()
+    os.remove(photoPath)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='login')
+def deleteCollaborator(request, pk, collaborator):
+    project = Project.objects.get(id=pk)
+    project.collaborators.remove(collaborator)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='login')
+def deleteTag(request, pk, tag):
+    project = Project.objects.get(id=pk)
+    tags = project.tags.split(',')
+    tags.remove(tag)
+    project.tags = ','.join(tags)
+    project.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='login')
 def appDetails(request):
     return render(request, 'appDetails.html')

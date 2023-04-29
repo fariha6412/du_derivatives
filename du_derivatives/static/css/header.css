@@ -29,12 +29,15 @@
     align-items: center;
   }
   .title{
+    font-size: 24px;
     color: rgb(28, 46, 110);
     text-emphasis-style: bold;
     padding: 1%;
     padding-top: 10px;
     text-decoration: none!important;
     cursor: pointer;
+    width: 100%;
+    margin-left: 15px;
   }
   .header-search{
     width: 40%;
@@ -138,10 +141,11 @@
 
   .header-profile-icon{
     height: 40px;
+    width: 40px;
     border-radius: 50%;
     border-color: rgb(48 48 152);
-    border-style: inset;
-    border-width: unset;
+    border-style: solid;
+    border-width: 6px;
   }
 
 

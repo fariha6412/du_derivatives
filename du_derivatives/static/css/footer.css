@@ -9,6 +9,7 @@
     bottom: 0px;
     background-color: rgb(48, 48, 152);
     position: fixed;
+    z-index: 10;
   }
 
   .left{

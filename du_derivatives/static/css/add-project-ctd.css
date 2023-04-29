@@ -1,0 +1,118 @@
+.application-add-ctd-section{
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.tag-collaborator-div{
+    display: flex;
+    justify-content: space-around;
+}
+
+.tag-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.collaborator-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.application-add-ctd-section p{
+    font-weight: bold;
+    color: #46009a;
+    margin-top: 40px;
+}
+
+.application-add-ctd-section ul li{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.application-add-ctd-section .tag-div ul li p, .collaborator-div ul li p{
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-style: normal;
+    color: black;
+    font-weight: normal;
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+    width: fit-content;
+    margin-top: 0px;
+}
+
+.application-add-ctd-section ul li a{
+    width: 29px;
+    margin-left: 10px;
+}
+
+.application-add-ctd-section .tag-collaborator-div button{
+    border: none;
+    background: none;
+}
+
+.application-add-ctd-section ul li img{
+    width: 100%;
+    height: 100%;
+}
+.tag-form input, .collaborator-form input{
+    font-family: "Roboto", sans-serif;
+    border-bottom: px;
+    border-width: 0px 0px 2px 0px;
+    margin: 0 0 10px;
+    padding: 6px;
+    font-size: 14px;
+}
+
+.application-add-ctd-section .collaborator-div ul li p{
+    color: black;
+    font-weight: normal;
+}
+
+.uploaded-photo-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 10%;
+    column-gap: 2%;
+    margin-top: 4%;
+    margin-bottom: 3%;
+
+}
+@media (max-width: 600px) {
+    .uploaded-photo-div {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 601px) and (max-width: 850px) {
+    .uploaded-photo-div {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+.img-div{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-div img{
+    width: 100%;
+    height: 100%;
+}
+
+.img-div button{
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.upload-photo-form{
+    margin-top: 40px;
+}
+
+.upload-photo-form button{
+    border: none;
+    background: none;
+}
+

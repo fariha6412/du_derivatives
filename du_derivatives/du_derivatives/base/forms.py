@@ -25,7 +25,7 @@ class UserForm(ModelForm):
         fields = ['name', 'csedu_batch', 'profile_picture']
 
 
-class AppForm(ModelForm):
+class ProjectForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'placeholder': 'project title'})

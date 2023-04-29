@@ -2,58 +2,73 @@
 
 {% block content %}
     <main>
-       <section class="application-add-section">
+       <section class="application-add-ctd-section">
+           <div class="tag-collaborator-div">
+               <div class="tag-container">
             <p>Add tag</p>
+            <div class="tag-div">
               <ul>
                   {% for tag in tags %}
-                  <li>{{tag}}</li>
+                  <li><p>{{tag}}</p><a href="{% url 'deleteTag' project.id tag %}"><button name="delete-tag"><img class = "minus-icon" type='submit' src = "static/img/extras/minus.png"> </button></a></li>
                   {% endfor %}
               </ul>
-            <form class="login-form" method="POST" action="" enctype="multipart/form-data">
+            </div>
+            <form class="tag-form" method="POST" action="" enctype="multipart/form-data">
               {% csrf_token %}
               <input type="text" method="POST" placeholder="tag" name="tag"/>
               <button name="add-tag"><img class = "plus-icon" type='submit' src = "static/img/extras/plus-sign.png"> </button>
             </form>
+               </div>
 
+               <div class="collaborator-container">
             <p>Add collaborators</p>
+           <div class="collaborator-div">
               <ul>
                   {% for collaborator in collaborators %}
-                  <li>{{collaborator}}({{collaborator.csedu_batch}})</li>
+                  <li><p>{{collaborator}}({{collaborator.csedu_batch}})</p><a href="{% url 'deleteCollaborator' project.id collaborator.id %}"><button name="delete-collaborator"><img class = "minus-icon" type='submit' src = "static/img/extras/minus.png"> </button></a></li>
                   {% endfor %}
               </ul>
-            <form class="login-form" method="POST" action="" enctype="multipart/form-data">
+           </div>
+            <form class="collaborator-form" method="POST" action="" enctype="multipart/form-data">
               {% csrf_token %}
               <input type="email" method="POST" placeholder="collaborator's email address" name="email"/>
               <button name="add-collaborator"><img class = "plus-icon" type='submit' src = "static/img/extras/plus-sign.png"> </button>
             </form>
+               </div>
+           </div>
 
            <p>Upload photos</p>
-                  {% for ph in photos %}
-                  <img src="{{ph.photo.url}}" width="100" height="100"/>
-                  {% endfor %}
-            <form class="login-form" method="POST" action="" enctype="multipart/form-data">
+                <div class="uploaded-photo-div">
+                {% for ph in photos %}
+                    <div class="img-div">
+                <img src="{{ph.photo.url}}" width="100" height="100"/>
+                <a href="{% url 'deletePhoto' ph.id %}"><button name="delete-photo">Delete</button></a>
+                    </div>
+                        {% endfor %}
+                </div>
+            <form class="upload-photo-form" method="POST" action="" enctype="multipart/form-data">
               {% csrf_token %}
               <input type="file" multiple method="POST" placeholder="photos" name="files"/>
               <button name="upload-photo"><img class = "plus-icon" type='submit' src = "static/img/extras/plus-sign.png"> </button>
             </form>
-
+            <a href="{% url 'appDetails' %}"><div class="save-project-btn"> <button>Save</button></div></a>
        </section>
 
-        <section class="review-section">
-            <p>Reviews({{review_count}})</p>
-            <div class="review-container">
-                {% for review in reviews %}
-                <img src="{{review.reviewer_profile_picture.url}}"/>
-                <p>{{review.reviewer}}</p>
-                <p>{{review.date}}</p>
-                <p>{{review.comment}}</p>
+<!--        <section class="review-section">-->
+<!--            <p>Reviews({{review_count}})</p>-->
+<!--            <div class="review-container">-->
+<!--                {% for review in reviews %}-->
+<!--                <img src="{{review.reviewer_profile_picture.url}}"/>-->
+<!--                <p>{{review.reviewer}}</p>-->
+<!--                <p>{{review.date}}</p>-->
+<!--                <p>{{review.comment}}</p>-->
 
-                <p>reply</p>
-                <p>{{review.reply_date}}</p>
-                <p>{{review.reply_body}}</p>
-                {% endfor %}
-            </div>
-        </section>
+<!--                <p>reply</p>-->
+<!--                <p>{{review.reply_date}}</p>-->
+<!--                <p>{{review.reply_body}}</p>-->
+<!--                {% endfor %}-->
+<!--            </div>-->
+<!--        </section>-->
     </main>
 
 {% endblock %}

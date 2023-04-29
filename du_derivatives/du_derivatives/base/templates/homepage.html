@@ -36,7 +36,7 @@
 
 <!--             properties of a single app (image name rating) -->
             {% for item in top_chart_apps %}
-              <a href="{% url 'projectPage' item.app.id %}">
+              <a href="{% url 'projectUpdate' item.app.id %}">
             <div class = "single-app">
               <div class = "app-numbering">
                   <p>{{item.id}}. </p>
