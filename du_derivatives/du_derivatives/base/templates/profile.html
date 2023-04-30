@@ -47,7 +47,7 @@
             {% else %}
             <div class = "app-container">
             {% for pair in apps %}
-              <a href="{% url 'projectPage' pair.app.id %}">
+              <a href="{% url 'projectDetails' pair.app.id %}">
             <div class = "single-app">
               <div class="app-image">
                 <img class = "app-icon" src = "{{pair.app.logo_img.url}}">
@@ -77,7 +77,7 @@
             {% for pair in apps %}
 
             <div class = "single-web-card">
-              <a href="{% url 'projectPage' pair.app.id %}">
+              <a href="{% url 'projectDetails' pair.app.id %}">
                   <div class="web-image">
                 <img class = "web-icon" src = "{{pair.app.logo_img.url}}">
                   </div>

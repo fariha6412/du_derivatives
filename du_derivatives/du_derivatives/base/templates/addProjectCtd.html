@@ -51,24 +51,8 @@
               <input type="file" multiple method="POST" placeholder="photos" name="files"/>
               <button name="upload-photo"><img class = "plus-icon" type='submit' src = "static/img/extras/plus-sign.png"> </button>
             </form>
-            <a href="{% url 'appDetails' %}"><div class="save-project-btn"> <button>Save</button></div></a>
+            <a href="{% url 'projectDetails' project.id %}"><div class="save-project-btn"> <button>Save</button></div></a>
        </section>
-
-<!--        <section class="review-section">-->
-<!--            <p>Reviews({{review_count}})</p>-->
-<!--            <div class="review-container">-->
-<!--                {% for review in reviews %}-->
-<!--                <img src="{{review.reviewer_profile_picture.url}}"/>-->
-<!--                <p>{{review.reviewer}}</p>-->
-<!--                <p>{{review.date}}</p>-->
-<!--                <p>{{review.comment}}</p>-->
-
-<!--                <p>reply</p>-->
-<!--                <p>{{review.reply_date}}</p>-->
-<!--                <p>{{review.reply_body}}</p>-->
-<!--                {% endfor %}-->
-<!--            </div>-->
-<!--        </section>-->
     </main>
 
 {% endblock %}

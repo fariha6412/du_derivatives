@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text, force_str, DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
@@ -96,8 +96,8 @@ def loginUser(request):
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     if not user.is_email_verified:
-                        messages.success((request,
-                                          f'Please verify your email. Check your spam folder also'))
+                        messages.error(request,
+                                       'Please verify your email. Check your spam folder also')
                         return redirect('login')
 
                     login(request, user)
@@ -117,7 +117,7 @@ def logoutUser(request):
 
 def activate_user(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
 
     except:
@@ -182,7 +182,7 @@ def addProject(request):
             project = form.save(commit=False)
             project.developer = developer
             project.save()
-            return redirect('projectPage', pk=project.id)
+            return redirect('addProjectCtd', pk=project.id)
         else:
             messages.error(request, 'An error has occurred')
 
@@ -221,7 +221,7 @@ def projectUpdate(request, pk):
 
 
 @login_required(login_url='login')
-def projectPage(request, pk):
+def addProjectCtd(request, pk):
     project = Project.objects.get(pk=pk)
     photos = Photo.objects.filter(project=project)
     collaborators = project.collaborators.all()
@@ -256,7 +256,7 @@ def projectPage(request, pk):
                 if new_collaborator not in collaborators:
                     project.collaborators.add(new_collaborator)
                     project.save()
-                    return redirect('projectPage', pk)
+                    return redirect('addProjectCtd', pk)
             except:
                 messages.error(request, 'No user found')
                 # print("no user found")
@@ -266,7 +266,7 @@ def projectPage(request, pk):
             tag_str += (',' + request.POST['tag'])
             project.tags = tag_str
             project.save()
-            return redirect('projectPage', pk)
+            return redirect('addProjectCtd', pk)
 
         # for uploading images
         if request.FILES:
@@ -278,11 +278,11 @@ def projectPage(request, pk):
                     photo=file
                 )
                 new_photo_file.save()
-            return redirect('projectPage', pk)
+            return redirect('addProjectCtd', pk)
 
         # for adding review
 
-    return render(request, 'projectPage.html',
+    return render(request, 'addProjectCtd.html',
                   {'project': project, 'photos': photos, 'tags': tags, 'collaborators': collaborators,
                    'reviews': reviews, 'review_count': review_count})
 
@@ -314,5 +314,5 @@ def deleteTag(request, pk, tag):
 
 
 @login_required(login_url='login')
-def appDetails(request):
-    return render(request, 'appDetails.html')
+def projectDetails(request, pk):
+    return render(request, 'projectDetails.html')

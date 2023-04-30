@@ -36,7 +36,7 @@
 
 <!--             properties of a single app (image name rating) -->
             {% for item in top_chart_apps %}
-              <a href="{% url 'projectUpdate' item.app.id %}">
+              <a href="{% url 'projectDetails' item.app.id %}">
             <div class = "single-app">
               <div class = "app-numbering">
                   <p>{{item.id}}. </p>
@@ -58,7 +58,7 @@
 
           <!-- apps in educational category -->
           <div class ="app-category-header">
-            <p>All apps</p>
+            <p>All projects</p>
           </div>
 
               {% if selected_text == 'Application' %}
@@ -70,7 +70,7 @@
             {% else %}
             <div class = "app-container">
             {% for app in general_apps %}
-              <a href="{% url 'projectPage' app.id %}">
+              <a href="{% url 'projectDetails' app.id %}">
             <div class = "single-app"> 
               <div class="app-image">
                 <img class = "app-icon" src = "{{app.logo_img.url}}">
@@ -100,7 +100,7 @@
             {% for app in general_apps %}
 
             <div class = "single-web-card">
-              <a href="{% url 'projectPage' app.id %}">
+              <a href="{% url 'projectDetails' app.id %}">
                   <div class="web-image">
                 <img class = "web-icon" src = "{{app.logo_img.url}}">
                   </div>
