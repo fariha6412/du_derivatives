@@ -3,9 +3,10 @@
 <head>
 
 <title>DU derivatives</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-<link rel="stylesheet" href="static/css/login/login.css">
-<link rel="icon" type="image/x-png" href="static/img/logo.png">
+    <link rel="stylesheet" href="static/css/login/login.css">
+    <link rel="icon" type="image/x-png" href="static/img/logo.png">
 
 </head>
 
@@ -14,11 +15,25 @@
         <div class="form">
           <form class="login-form" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
-               {% for field in form %}
           <div class="form__group form__group">
-            {{field}}
+              {{form.name}}
+              {{form.username}}
+              {{form.email}}
+              {{form.csedu_batch}}
+              <div class="password">
+                  {{form.password1}}
+                  <div class="input-group-append">
+                    <span toggle="#{{ form.password1.id_for_label }}" class="fa fa-fw fa-eye-slash field-icon toggle-password"></span>
+                  </div>
+              </div>
+              <div class="password">
+                  {{form.password2}}
+                  <div class="input-group-append">
+                    <span toggle="#{{ form.password2.id_for_label }}" class="fa fa-fw fa-eye-slash field-icon toggle-password"></span>
+                  </div>
+              </div>
+
           </div>
-          {% endfor %}
               <div class="password-checker">
                   <span class="password-checker-sp">
                       <ul>
@@ -37,6 +52,17 @@
           </form>
         </div>
       </div>
-   
-
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(".toggle-password").click(function() {
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    var input = $($(this).attr("toggle"));
+    if (input.attr("type") == "password") {
+      input.attr("type", "text");
+    } else {
+      input.attr("type", "password");
+    }
+  });
+</script>

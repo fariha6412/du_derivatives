@@ -29,7 +29,7 @@
     align-items: center;
   }
   .title{
-    font-size: 24px;
+    font-size: 130%;
     color: rgb(28, 46, 110);
     text-emphasis-style: bold;
     padding: 1%;
@@ -111,7 +111,6 @@
   
   .right-section {
     flex:1;
-    min-width: 150px;
     display: flex;
     align-items: center;
     justify-content: right;
@@ -143,9 +142,6 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    border-color: rgb(48 48 152);
-    border-style: solid;
-    border-width: 6px;
   }
 
 

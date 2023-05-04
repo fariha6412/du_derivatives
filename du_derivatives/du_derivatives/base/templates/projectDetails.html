@@ -3,87 +3,104 @@
 {% block content %}
 
 <!-- app image and name on top -->
+<main>
 
 <div class = app-details-main>
     <div class = "app-details-top">
         <div class="app-details-top-image">
-            <img class = "app-details-icon" src = "static/img/apps/renshuu.webp">
+            <img class = "app-details-icon" src = "{{project.logo_img.url}}">
           </div>
         <div class = "app-details-description">
             <div class = "app-details-name">
-                <p>app name</p>
+                <p>{{project.title}}</p>
             </div>
+            <div class="project-tag-div">
+            {% for tag in tags %}
             <div class = "app-details-category">
-                Category
+                {{tag}}
             </div>
-            <div class = "app-rating">
-                <img class = "star-icon" src = "static/img/extras/star.png">
-                <p>{{app.rating}} 4.4</p>
+            {% endfor %}
+                </div>
+            <div class = "star-rating">
+                <img class = "starr-icon" src = "static/img/extras/star.png">
+                <p>{{project.rate|floatformat:1 }}</p>
             </div>
         
             <div class = "git-download-image">
-                <div class = "git-image">
-                    <img class = "git-icon" src = "static/img/extras/git.png">
+                <div class = "git">
+                    <a href="{{project.github_link}}"><i class="fa-brands fa-github" style="color: #000000;"></i></a>
                 </div>
-                <div class = "down-image">
-                    <img class = "down-icon" src = "static/img/extras/download.png">
-                </div>     
+                <div class = "down">
+                    <a href="{{project.deployed_link}}"><i class="fa-solid fa-download" style="color: #000000;"></i></a>
+                </div>
+                <div class = "video">
+                    <a href="{{project.demo_link}}"><i class="fas fa-video" style="color: #000000;"></i></a>
+                </div>
+
             </div>
         </div>
-    
+
         <div class = "editbtn-date">
-            <button class = "edit-btn"> Edit</button>
-            <p>date:12-11-2023</p>
+            {% if request.user != project.developer %}
+            <div>
+                <div class="rating">
+                    {% for i in range %}
+                        {% if i < user_rating %}
+                          <i class="fa-sharp fa-solid fa-star" style="color: #303098;" data-project-id="{{ project.pk }}"></i>
+                        {% else %}
+                            <i class="far fa-star" data-project-id="{{ project.pk }}"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if request.user == project.developer %}
+            <a href="{% url 'projectUpdate' project.id %}"><button class = "edit-btn"> Edit</button></a>
+            {% endif %}
+            <p>Published: {{project.date_added|date:"F j, Y"}}</p>
+        </div>
+    </div>
+    <div class="screenshots">
+        <div class="slider">
+          <div class="slides">
+              {% for img in ssimages %}
+            <div class="slide">
+              <img src="{{img.photo.url}}" alt="Slide 1">
+            </div>
+           {% endfor %}
+          </div>
+          <button class="prev"><i class="fa-solid fa-arrow-left" style="color: #303098;"></i></button>
+          <button class="next"><i class="fa-solid fa-arrow-right" style="color: #303098;"></i></button>
         </div>
     </div>
 
-    <div class = "app-details-images">
-        <div class = "scroll-icon">
-            <img class = "scroll-left-icon" src = "static/img/extras/dropdowm.png">
-        </div>
-        <div class = "app-details-grid">
-            <img class = "app-details-image" src = "static/img/extras/image.png">
-            <img class = "app-details-image" src = "static/img/extras/image.png">
-            <img class = "app-details-image" src = "static/img/extras/image.png">
-            <img class = "app-details-image" src = "static/img/extras/image.png">
-        </div>
-        <div class = "scroll-icon">
-            <img class = "scroll-right-icon" src = "static/img/extras/dropdowm.png">
-        </div>
-    </div>
-    
     <!-- about app and video section -->
-    <div class = "about-video-section">
+    <div class = "about-video-developer-section">
+       
+        <div class = "about-app-developer">
         <div class = "about-app">
             <div class = "about-app-header">
                 <p>About this app </p>
             </div>
             <div class = "about-app-text">
-                <p> A cute, ad-free, and enjoyable learning experience is waiting for 
-                    you in the Renshuu community! The free version is unlimited: there is
-                    no timer before you are forced to pay!</p>
+                <p> {{project.about}}</p>
             </div>
         </div>
-        <iframe width="420" height="315"
-        src="https://www.youtube.com/embed/tgbNymZ7vqY">
-        </iframe>
-    </div>
-
-
-    <!-- developer section -->
-    <div class = "about-developer">
-        <div class = "about-app-header">
-            About developers
+        <div class = "about-developer">
+            <div class = "about-app-header">
+                About developers
+            </div>
+            <div class = "developer-list">
+                <ul>
+                    <li><a href="{% url 'profile' project.developer.id %}">{{project.developer.name}} ({{project.developer.csedu_batch}})</a></li>
+                    {% for user in project.collaborators.all %}
+                    <li><a href="{% url 'profile' user.id %}">{{user.name}} ({{user.csedu_batch}})</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        <div class = "developer-list">
-            <ul>
-                <li> Abcdafsrgrf (25)</li>
-                <li>fsgdfghg (25)</li>
-                <li> sbfskfh fhgdgh</li>
-            </ul>
-        </div>
+       </div>
     </div>
-
 
     <div class = "review-section">
         <div class = review-top>
@@ -91,39 +108,158 @@
                 Reviews
             </div>
             <div class = "review-number">
-                <p> (1)</p>
+                <p>({{review_count}})</p>
             </div>
         </div>
+        {% if request.user != project.developer %}
+        <form class="review-form" method="POST" action="">
+          {% csrf_token %}
+          <input type="text" placeholder="write a review" name="review"/>
+            <button class="edit-btn">Post</button>
+        </form>
+        {% endif %}
+        {% for review in reviews %}
         <div class = "review-description">
             <div class = "reviewer-image">
-                <img class = "reviewer-icon" src = "static/img/apps/renshuu.webp">
+                <img class = "reviewer-icon" src = "{{review.reviewer_profile_picture.url}}">
             </div>
 
             <div class = "review-details">
                 <div class = review-name-rating>
                     <div class = "reviewer-name">
-                        <p> M.W</p>
+                        <p>{{review.reviewer.name}}</p>
                     </div>
 
                 </div>
                 <div class = "review-text">
                     <p>
-                        I just downloaded the app, and so far, it's been really fun! As someone with ADHD, 
-                        having the little gacha machine at the end of every lesson has been motivating me a ton. All of the graphics are very cute as well, and there's multiple ways of learning new characters for those who learn in different ways! It also runs very smooth, 
-                        no glitches so far. Overall, a great app; far better than Duolingo, as another user put it.
+                        {{review.comment}}
                     </p>
                 </div>
 
                 <div class = "review-date">
-                    <p>12-11-2023</p>
+                    <p>{{review.date|date:"F j, Y"}}</p>
                 </div>
             </div>
         </div>
-        <div class = "reply-button">
-            <button class = "reply-btn">Reply</button>
-        </div>
+        {% if request.user == project.developer %}
+        <form class="reply-form" method="POST" action="{% url 'addReply' projectPK=project.id reviewPK=review.id %}">
+          {% csrf_token %}
+          <input type="text" placeholder="provide a reply" name="reply"/>
+            <button class="edit-btn">Done</button>
+        </form>
+        {% endif %}
 
+        {% for reply in review.replies %}
+        <!-- developers reply section -->
+        <div class = "review-description">
+
+            <div class = "reply-details">
+                <div class = review-name-rating>
+                    <div class = "reviewer-name">
+                        <p> Developer</p>
+                    </div>
+
+                </div>
+                <div class = "review-text">
+                    <p>
+                        {{reply.details}}
+                    </p>
+                </div>
+
+                <div class = "review-date">
+                    <p>{{reply.date_added|date:"F j, Y"}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+ <script>
+const slides = document.querySelector(".slides");
+const slide = document.querySelectorAll(".slide");
+const prev = document.querySelector(".prev");
+const next = document.querySelector(".next");
+
+let slideIndex = 0;
+const slidesPerPage = 3;
+
+function showSlides() {
+  slides.style.transform = `translateX(-${slideIndex * (100 / slidesPerPage)}%)`;
+}
+
+showSlides();
+
+prev.addEventListener("click", () => {
+  slideIndex--;
+  if (slideIndex < 0) {
+    slideIndex = slide.length - slidesPerPage;
+  }
+  showSlides();
+});
+
+next.addEventListener("click", () => {
+  slideIndex++;
+  if (slideIndex > slide.length - slidesPerPage) {
+    slideIndex = 0;
+  }
+  showSlides();
+});
+
+window.addEventListener("resize", () => {
+  const containerWidth = slides.offsetWidth;
+  slide.forEach((s) => {
+    s.style.width = `${containerWidth / slidesPerPage}px`;
+  });
+});
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+$(document).ready(function() {
+  $('.rating i').on('click', function() {
+    var rating = $(this).index() + 1;
+    var project_id = $(this).data('project-id');
+    var csrftoken = getCookie('csrftoken');
+    $.ajax({
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
+        },
+      url: 'update_rating',
+      type: 'POST',
+      data: {
+        'project_id': project_id,
+        'rating': rating,
+        'csrfmiddlewaretoken': csrftoken
+      },
+      success: function(response) {
+        // handle success
+        setTimeout(function() {
+          window.location.href = 'projectDetails-' + project_id;
+        }, 100); // delay for 1 seconds
+      },
+      error: function(xhr, status, error) {
+        // handle error
+      }
+    });
+  });
+});
+
+</script>
+</main>
 {% endblock %}

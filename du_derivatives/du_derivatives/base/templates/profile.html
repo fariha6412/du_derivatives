@@ -8,12 +8,16 @@
             </div>
             <div class = "profile-info-section">
                 <div class = "name-text">
-                    <p> <strong>{{request.user.name}}</strong></p>
+                    <p> <strong>{{user.name}}</strong></p>
                 </div>  
                 <div class = "batch-name">
-                    <p> CSEDU-batch: {{request.user.csedu_batch}}</p>
+                    <p> CSEDU-batch: {{user.csedu_batch}}</p>
                 </div>
+                {% if request.user != user %}
+                <a href="mailto:{{user.email}}"><div class="email"><button class = "edit-profile-btn"><i class="fa-solid fa-envelope" style="color: #ffffff;"></i> contact</button></div></a>
+                {% else %}
                 <a href="{% url 'userUpdate' %}"><button class = "edit-profile-btn"> edit profile</button></a>
+                {% endif %}
             </div>
         </div>
 
@@ -22,7 +26,7 @@
             <p> My projects</p>
             <a href="{% url 'addProject' %}">
                 <button class = "plus-button">
-                    <img class = "plus-icon" src = "static/img/extras/plus-sign-white.png">Add Project
+                    <i class="fa-solid fa-plus fa-xl" style="color: #1c2e6e;"></i>
                 </button>
             </a>
         </div>
@@ -30,22 +34,28 @@
 
         <div class="option">  
         <!-- choosing between apps or websites -->
-        <form method='get'><button class = "application-button" type="submit" value="Applications" name="Application">Applications</button></form>
-          <form method='get'><button class="website-button" type="submit" value="Websites" name="Website">Websites</button></form>
+        <form method='get'><button class = "application-button" type="submit" value="Applications" name="Application" id="Application">Applications</button></form>
+          <form method='get'><button class="website-button" type="submit" value="Websites" name="Website" id="Website">Websites</button></form>
        </div>
-
 
 
         <div class = "profile-app-preview">
 
-            {% if selected_text == 'Application' %}
             {% if project_count == 0 %}
+            {% if selected_text == 'Website' %}
+            <div class="no-app-container">
+                <div class = "no-app-text"> <p>no website found</p> </div>
+            </div>
+            {% endif %}
+
+            {% if selected_text == 'Application' %}
               <div class="no-app-container">
                 <div class = "no-app-text"> <p>no app found</p> </div>
               </div>
+            {% endif %}
 
             {% else %}
-            <div class = "app-container">
+            <div class = "app-container-profile">
             {% for pair in apps %}
               <a href="{% url 'projectDetails' pair.app.id %}">
             <div class = "single-app">
@@ -56,49 +66,29 @@
                 <p>{{pair.app.title}}</p>
                 <div class = "app-rating">
                   <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{pair.app.rate}}</p>
+                  <p>{{pair.app.rate|floatformat:1 }}</p>
                 </div>
               </div>
+                <div class="app-description"><p>{{pair.app.about|slice:"0:100"}}</p></div>
            </div>
               </a>
            {% endfor %}
             </div>
            {% endif %}
 
-              {% else %}
-
-            {% if project_count == 0 %}
-              <div class="no-web-container">
-                <div class = "no-web-text"> <p>no website found</p> </div>
-              </div>
-
-            {% else %}
-                <div class = "web-card-container">
-            {% for pair in apps %}
-
-            <div class = "single-web-card">
-              <a href="{% url 'projectDetails' pair.app.id %}">
-                  <div class="web-image">
-                <img class = "web-icon" src = "{{pair.app.logo_img.url}}">
-                  </div>
-              </a>
-              <div class = "web-card-details">
-                  <div class="web-title"><p>{{pair.app.title}}</p></div>
-                  <div class = "web-rating">
-                  <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{pair.app.rate}}</p>
-                </div>
-                  <div class="web-description"><p>{{pair.app.about|slice:"0:100"}}</p></div>
-
-              </div>
-           </div>
-                    {% endfor %}
-
-
-          </div>
-            {% endif %}
-           {% endif %}
-
         </div>
         </main>
+{% if selected_text == 'Website' %}
+  <script>
+    $(document).ready(function() {
+      $("#Website").css("color", "#000000");
+    });
+  </script>
+{% else %}
+ <script>
+    $(document).ready(function() {
+      $("#Application").css("color", "#000000");
+    });
+  </script>
+{% endif %}
 {% endblock %}

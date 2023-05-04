@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
 
     <link rel="stylesheet" href="static/css/header.css">
     <link rel="stylesheet" href="static/css/sidebar.css">
@@ -18,10 +19,16 @@
 
     <link rel="stylesheet" href="static/css/project-details/project-details.css">
 
-    <link rel="stylesheet" href="static/css/website-preview.css">
-
     <link rel = "stylesheet" href = "static/css/profile/profileview.css">
     <link rel="icon" type="image/x-png" href="static/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script
+      src="https://kit.fontawesome.com/a59b9b09ab.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
 
@@ -58,10 +65,10 @@
               <img class = "dropdown-icon" src = "static/img/extras/dropdowm.png">
         </button>
             <div class = "dropdown-content">
-              <a href="{% url 'profile' %}"><p> signed in as:
+              <a href="{% url 'profile' request.user.id %}"><p> signed in as:
                 <br> {{request.user.name}}
               </p></a>
-              <a href="{% url 'profile' %}">your profile</a>
+              <a href="{% url 'profile' request.user.id %}">your profile</a>
               <a href="#">alter theme</a>
               <a href="{% url 'logout' %}">logout</a>
             </div>
@@ -88,7 +95,6 @@
         <div class="left">
             <p>  © CSEDU Products 2023 <br> all rights reserved </p>
         </div>
-
       <div class="right">
         <a href="mailto:fariha.tanjim.shifat@gmail.com"><button class="contact-btn">Contact</button></a>
         <a href="https://github.com/fariha6412/du_derivatives"><button class="contact-github-btn">Github</button></a>

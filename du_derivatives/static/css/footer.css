@@ -12,7 +12,7 @@
     z-index: 10;
   }
 
-  .left{
+ footer .left{
     display: flex;
     align-items: center;
     margin-left: 10px;
@@ -24,23 +24,9 @@
   }
 
   .right{
-    display: flex;
-    align-items: center;
-    flex:1;
-    justify-content: right;
+
   }
-.left:after {
-    content: "";
-    background-color: #fefefe;
-    position: absolute;
-    width: 1px;
-    height: 30px;
-    top: 5px;
-    bottom: 5px;
-    left: 50%;
-    display: block;
-    border-radius: 5px;
-}
+
 .contact-btn, .contact-github-btn{
     padding: 8px;
     border: none;

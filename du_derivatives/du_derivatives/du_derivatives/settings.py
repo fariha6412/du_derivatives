@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 import django.core.mail.backends.smtp
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,3 +151,10 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/userImages/'
 MEDIA_ROOT = BASE_DIR / 'static/userImages'
 ALLOWED_HOSTS = ['*']
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'alert-success timeout',
+    messages.WARNING: 'alert-warning timeout',
+    messages.ERROR: 'alert-danger timeout',
+    messages.INFO: 'alert-info timeout',
+}

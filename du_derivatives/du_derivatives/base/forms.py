@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from .models import User, Project
 
 
@@ -40,3 +40,14 @@ class ProjectForm(ModelForm):
         model = Project
         fields = '__all__'
         exclude = ['developer', 'rate', 'tags', 'collaborators', 'date_added', 'date_last_updated']
+
+
+class UserPasswordResetEmailForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(UserPasswordResetEmailForm, self).__init__(*args, **kwargs)
+
+    email = forms.EmailField(label='', widget=forms.EmailInput(attrs={
+        'placeholder': 'email',
+        'type': 'email',
+        'name': 'email'
+        }))

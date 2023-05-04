@@ -5,8 +5,8 @@
     
       <div class="option">  
         <!-- choosing between apps or websites -->
-        <form method='get'><button class = "application-button" type="submit" value="Applications" name="Application">Applications</button></form>
-          <form method='get'><button class="website-button" type="submit" value="Websites" name="Website">Websites</button></form>
+        <form method='get'><button class = "application-button" type="submit" value="Applications" name="Application" id='Application'>Applications</button></form>
+          <form method='get'><button class="website-button" type="submit" value="Websites" name="Website" id="Website">Websites</button></form>
        </div>
 
 
@@ -48,7 +48,7 @@
                 <p>{{item.app.title}}</p>
                 <div class = "app-rating">
                   <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{item.app.rate}}</p>
+                  <p>{{item.app.rate|floatformat:1 }}</p>
                 </div>
               </div>
            </div>
@@ -61,65 +61,56 @@
             <p>All projects</p>
           </div>
 
-              {% if selected_text == 'Application' %}
             {% if project_count == 0 %}
+            {% if selected_text == 'Website' %}
+            <div class="no-app-container">
+                <div class = "no-app-text"> <p>no website found</p> </div>
+            </div>
+            {% endif %}
+
+            {% if selected_text == 'Application' %}
               <div class="no-app-container">
                 <div class = "no-app-text"> <p>no app found</p> </div>
               </div>
+            {% endif %}
 
             {% else %}
             <div class = "app-container">
             {% for app in general_apps %}
               <a href="{% url 'projectDetails' app.id %}">
-            <div class = "single-app"> 
+            <div class = "single-app">
               <div class="app-image">
                 <img class = "app-icon" src = "{{app.logo_img.url}}">
               </div>
+                <div class="line"></div>
               <div class = "app-name">
                 <p>{{app.title}}</p>
                 <div class = "app-rating">
                   <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{app.rate}}</p>
+                  <p>{{app.rate|floatformat:1 }}</p>
                 </div>
               </div>
+                <div class="app-description"><p>{{app.about|slice:"0:100"}}</p></div>
            </div>
               </a>
            {% endfor %}
             </div>
            {% endif %}
 
-              {% else %}
-
-            {% if project_count == 0 %}
-              <div class="no-web-container">
-                <div class = "no-web-text"> <p>no website found</p> </div>
-              </div>
-
-            {% else %}
-                <div class = "web-card-container">
-            {% for app in general_apps %}
-
-            <div class = "single-web-card">
-              <a href="{% url 'projectDetails' app.id %}">
-                  <div class="web-image">
-                <img class = "web-icon" src = "{{app.logo_img.url}}">
-                  </div>
-              </a>
-              <div class = "web-card-details">
-                  <div class="web-title"><p>{{app.title}}</p></div>
-                  <div class = "web-rating">
-                  <img class = "star-icon" src = "static/img/extras/star.png">
-                  <p>{{app.rate}}</p>
-                </div>
-                  <div class="web-description"><p>{{app.about|slice:"0:100"}}</p></div>
-
-              </div>
-           </div>
-                    {% endfor %}
-          </div>
-                {% endif %}
-                {% endif %}
         </div>
     </section>
     </main>
+{% if selected_text == 'Website' %}
+  <script>
+    $(document).ready(function() {
+      $("#Website").css("color", "#000000");
+    });
+  </script>
+{% else %}
+ <script>
+    $(document).ready(function() {
+      $("#Application").css("color", "#000000");
+    });
+  </script>
+{% endif %}
 {% endblock %}

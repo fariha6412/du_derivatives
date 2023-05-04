@@ -4,15 +4,14 @@ from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import MyUserCreationForm, ProjectForm, UserForm
-from .models import Project, User, Photo, Review, Reply, ProjectType
+from .models import Project, User, Photo, Review, Reply, ProjectType, Rating
 from .utils import generate_token
-
 from django.utils.safestring import mark_safe
 
 
@@ -38,7 +37,7 @@ def home(request):
                 users = User.objects.filter(csedu_batch__lte=max_batch)
 
         for user in users:
-            projects = Project.objects.filter(type=projectType) & Project.objects.filter(developer=user) & (
+            projects |= Project.objects.filter(type=projectType) & (Project.objects.filter(developer=user) | Project.objects.filter(collaborators=user)) & (
                     Project.objects.filter(title__icontains=q) | Project.objects.filter(
                 tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
@@ -65,20 +64,22 @@ def home(request):
                    'selected_text': type, 'project_count': project_count})
 
 
-@login_required(login_url='login')
-def profile(request):
+def profile(request, pk):
+    user = User.objects.get(pk=pk)
     if request.GET.get('Website') == 'Websites':
         type = 'Website'
     else:
         type = 'Application'
 
     projectType = ProjectType.objects.get(name=type)
-    projects = Project.objects.filter(developer=request.user) & Project.objects.filter(type=projectType)
+    projects = Project.objects.filter(developer=user) & Project.objects.filter(
+        type=projectType) | Project.objects.filter(collaborators=user)
     project_count = projects.count()
     apps = []
     for i, project in enumerate(projects):
         apps += [{'i': i + 1, 'app': project}]
-    return render(request, 'profile.html', {'apps': apps, 'selected_text': type, 'project_count': project_count})
+    return render(request, 'profile.html',
+                  {'apps': apps, 'selected_text': type, 'project_count': project_count, 'user': user})
 
 
 def loginUser(request):
@@ -92,7 +93,7 @@ def loginUser(request):
             password = request.POST.get('password')
 
             try:
-                # user = User.objects.get(email=username)
+                user = User.objects.get(email=username)
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     if not user.is_email_verified:
@@ -103,7 +104,7 @@ def loginUser(request):
                     login(request, user)
                     return redirect('home')
             except:
-                messages.error(request, 'Username or password doesn\'t exist.')
+                messages.error(request, 'Username or password doesn\'t exist.', extra_tags='timeout:5000')
                 return redirect('login')
 
     return render(request, 'login.html')
@@ -149,7 +150,6 @@ def send_action_email(user, request):
     email.send()
 
 
-# @user_not_authenticated
 def signup(request):
     form = MyUserCreationForm()
 
@@ -215,7 +215,7 @@ def projectUpdate(request, pk):
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('addProjectCtd', pk=project.id)
 
     return render(request, 'addProject.html', {'form': form})
 
@@ -234,31 +234,26 @@ def addProjectCtd(request, pk):
         if '' in tags:
             tags.remove('')
 
-    reviews_qs = Review.objects.filter(project=project)
-    reviews = []
-    for rqs in reviews_qs:
-        reply = Reply.objects.get(review=rqs)
-        reviews += [{
-            'reviewer_profile_picture': rqs.reviewer.profile_picture,
-            'reviewer': rqs.reviewer,
-            'date': rqs.date_added,
-            'comment': rqs.comment,
-            'reply_date': reply.date_added,
-            'reply_body': reply.details
-        }]
-    review_count = reviews_qs.count()
     if request.method == 'POST':
 
         # for adding collaborator
         if request.POST.get('email', False):
             try:
                 new_collaborator = User.objects.get(email=request.POST['email'])
-                if new_collaborator not in collaborators:
-                    project.collaborators.add(new_collaborator)
-                    project.save()
+                if new_collaborator != request.user:
+                    if new_collaborator not in collaborators:
+                        project.collaborators.add(new_collaborator)
+                        project.save()
+                        return redirect('addProjectCtd', pk)
+                    else:
+                        messages.error(request, 'Already in list')
+                        return redirect('addProjectCtd', pk)
+                else:
+                    messages.error(request, 'You are the developer')
                     return redirect('addProjectCtd', pk)
             except:
                 messages.error(request, 'No user found')
+                return redirect('addProjectCtd', pk)
                 # print("no user found")
 
         # for adding tag
@@ -283,8 +278,7 @@ def addProjectCtd(request, pk):
         # for adding review
 
     return render(request, 'addProjectCtd.html',
-                  {'project': project, 'photos': photos, 'tags': tags, 'collaborators': collaborators,
-                   'reviews': reviews, 'review_count': review_count})
+                  {'project': project, 'photos': photos, 'tags': tags, 'collaborators': collaborators})
 
 
 @login_required(login_url='login')
@@ -313,6 +307,101 @@ def deleteTag(request, pk, tag):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required(login_url='login')
+def retriveDetails(request, pk):
+    project = Project.objects.get(pk=pk)
+    ssimages = Photo.objects.filter(project=project)
+    tag_str = project.tags
+    if tag_str is None or tag_str == '':
+        tags = []
+        tag_str = ''
+    else:
+        tags = tag_str.split(',')
+        if '' in tags:
+            tags.remove('')
+
+    old_rating = Rating.objects.filter(user=request.user) & Rating.objects.filter(project=project)
+    try:
+        user_rating = old_rating[0].star if old_rating is not None else 0
+    except:
+        user_rating = 0
+
+    reviews_qs = Review.objects.filter(project=project)
+    reviews = []
+    for rqs in reviews_qs:
+        replies = Reply.objects.filter(review=rqs)
+        reviews += [{
+            'id': rqs.id,
+            'reviewer_profile_picture': rqs.reviewer.profile_picture,
+            'reviewer': rqs.reviewer,
+            'date': rqs.date_added,
+            'comment': rqs.comment,
+            'replies': replies,
+        }]
+    review_count = reviews_qs.count() if reviews_qs.count() is not None else 0
+
+    return {'project':project, 'tags': tags, 'ssimages': ssimages, 'review_count': review_count,
+            'reviews': reviews, 'range': range(5), 'user_rating': user_rating}
+
+
 def projectDetails(request, pk):
-    return render(request, 'projectDetails.html')
+    project = Project.objects.get(pk=pk)
+    context = retriveDetails(request, pk)
+
+    if request.method == 'POST':
+
+        # for adding review
+        if request.POST.get('review', False):
+            try:
+                Review.objects.create(
+                    comment=request.POST['review'],
+                    project=project,
+                    reviewer=request.user)
+                return redirect('projectDetails', pk)
+            except:
+                print("review error")
+
+    return render(request, 'projectDetails.html', context)
+
+
+@login_required(login_url='login')
+def addReply(request, projectPK, reviewPK):
+    if request.method == 'POST':
+
+        # for adding reply
+        if request.POST.get('reply', False):
+            review = Review.objects.get(pk=reviewPK)
+            try:
+                Reply.objects.create(
+                    details=request.POST['reply'],
+                    review=review)
+                return redirect('projectDetails', projectPK)
+            except:
+                print("reply error")
+
+
+def update_rating(request):
+    if request.method == 'POST':
+        # Get the project object
+        project_id = request.POST.get('project_id')
+        project = Project.objects.get(pk=project_id)
+
+        # Get the new rating value from the form
+        new_rating = int(request.POST.get('rating'))
+        old_rating = Rating.objects.filter(user=request.user) & Rating.objects.filter(project=project)
+        if old_rating is not None:
+            old_rating.delete()
+        # Update the rating value for the project
+        ratings = Rating.objects.filter(project=project)
+        total_ratings_count = ratings.count() if ratings.count() is not None else 0
+        total_rating = total_ratings_count * project.rate
+        project.rate = (total_rating + new_rating) / (total_ratings_count + 1)
+        Rating.objects.create(
+            star=new_rating,
+            user=request.user,
+            project=project
+        )
+        project.save()
+
+        # Render the project detail page
+    return render(request, 'projectDetails.html', retriveDetails(request, project_id))
+
