@@ -42,7 +42,7 @@ def home(request):
                 tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
-        for pr in projects.order_by('rate'):
+        for pr in projects.order_by('-rate'):
             top_apps += [{'id': i + 1, 'app': pr}]
             i += 1
             if i == 10:
@@ -53,7 +53,7 @@ def home(request):
             tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
-        for pr in projects.order_by('rate'):
+        for pr in projects.order_by('-rate'):
             top_apps += [{'id': i + 1, 'app': pr}]
             i += 1
             if i == 10:
