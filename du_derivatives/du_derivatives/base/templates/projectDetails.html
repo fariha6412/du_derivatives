@@ -8,7 +8,7 @@
 <div class = app-details-main>
     <div class = "app-details-top">
         <div class="app-details-top-image">
-            <img class = "app-details-icon" src = "{{project.logo_img.url}}">
+            <img id = "myImg" class = "app-details-icon" src = "{{project.logo_img.url}}">
           </div>
         <div class = "app-details-description">
             <div class = "app-details-name">
@@ -39,7 +39,7 @@
 
             </div>
         </div>
-
+        {% if request.user.is_authenticated %}
         <div class = "editbtn-date">
             {% if request.user != project.developer %}
             <div>
@@ -57,6 +57,7 @@
             {% if request.user == project.developer %}
             <a href="{% url 'projectUpdate' project.id %}"><button class = "edit-btn"> Edit</button></a>
             {% endif %}
+            {% endif %}
             <p>Published: {{project.date_added|date:"F j, Y"}}</p>
         </div>
     </div>
@@ -64,14 +65,25 @@
         <div class="slider">
           <div class="slides">
               {% for img in ssimages %}
-            <div class="slide">
-              <img src="{{img.photo.url}}" alt="Slide 1">
+            <div class="slide" id = "slideid">
+              <img id = "i" class = "slider-image" src="{{img.photo.url}}" alt="Slide 1">
             </div>
            {% endfor %}
           </div>
-          <button class="prev"><i class="fa-solid fa-arrow-left" style="color: #303098;"></i></button>
-          <button class="next"><i class="fa-solid fa-arrow-right" style="color: #303098;"></i></button>
+          <button class="prev"><i class="fa-solid fa-arrow-left fa-xl"></i></button>
+          <button class="next"><i class="fa-solid fa-arrow-right fa-xl"></i></button>
         </div>
+    </div>
+
+    <!-- The Modal for pop up image -->
+    <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="close">&times;</span>
+    
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01">
+
     </div>
 
     <!-- about app and video section -->
@@ -261,5 +273,96 @@ $(document).ready(function() {
 });
 
 </script>
+
+
+<!-- script to get the dominant color of the images in slider -->
+<script>
+var rgb = getAverageRGB(document.getElementById('i'));
+const slidercolor = document.querySelectorAll(".slide");
+
+slidercolor.forEach((s) => {
+    s.style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
+  });
+
+    // document.querySelectorAll(".slide").style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
+        // document.getElementById("slideid").style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
+
+function getAverageRGB(imgEl) {
+    
+    var blockSize = 5, // only visit every 5 pixels
+        defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
+        canvas = document.createElement('canvas'),
+        context = canvas.getContext && canvas.getContext('2d'),
+        data, width, height,
+        i = -4,
+        length,
+        rgb = {r:0,g:0,b:0},
+        count = 0;
+        
+    if (!context) {
+        return defaultRGB;
+    }
+    
+    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+    
+    context.drawImage(imgEl, 0, 0);
+    
+    try {
+        data = context.getImageData(0, 0, width, height);
+    } catch(e) {
+        /* security error, img on diff domain */alert('x');
+        return defaultRGB;
+    }
+    
+    length = data.data.length;
+    
+    while ( (i += blockSize * 4) < length ) {
+        ++count;
+        rgb.r += data.data[i];
+        rgb.g += data.data[i+1];
+        rgb.b += data.data[i+2];
+    }
+    
+    // ~~ used to floor values
+    rgb.r = ~~(rgb.r/(count));
+    rgb.g = ~~(rgb.g/(count));
+    rgb.b = ~~(rgb.b/(count));
+    
+    return rgb;
+    
+}
+</script>
+
+
+
+<!-- popup image js -->
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    const sliderImage = document.querySelectorAll(".slider-image");
+    var modalImg = document.getElementById("img01");
+    
+    sliderImage.forEach((s) => {
+        var img = s;
+        img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = this.src;
+    }
+
+  });
+    // var img = document.getElementById("myImg");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() { 
+      modal.style.display = "none";
+    }
+    </script>
+
 </main>
 {% endblock %}

@@ -29,10 +29,50 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+  
+  <script>
+
+$(function() {
+    $(".loader").fadeOut(2000, function() {
+        $(".body").fadeIn(1000);        
+    });
+});
+
+  </script>
+
+
+<!-- <script>
+
+document.addEventListener('DOMContentLoaded', function(e){ 
+  $(".loader").fadeOut(1000, function() {
+        $(".body").fadeIn(1000);        
+    });
+
+})
+</script> -->
+
+<!-- <script>
+  document.onreadystatechange = function () {
+     if (document.readyState !== "complete") {
+        document.querySelector("body").style.visibility = "hidden";
+        document.getElementsByClassName("loader").style.visibility = "visible";
+     } else {
+        setTimeout(() => {
+           document.getElementsByClassName("loader").style.display ="none";
+           document.body.style.visibility = "visible";
+        }, 3000)
+     }
+  };
+</script> -->
+
+
   </head>
 
+  <div class="loader"></div>
 
-  <body>
+  <body class="animate-bottom">
 
     <!-- top navigation bar -->
     <header class="header">
@@ -88,8 +128,8 @@
   {% endblock %}
 
 
-
   </body>
+
 <!-- the bottom section -->
     <footer class="footer">
         <div class="left">
@@ -101,4 +141,7 @@
       </div>
 
     </footer>
+
+
+
 </html>

@@ -103,6 +103,9 @@ def loginUser(request):
 
                     login(request, user)
                     return redirect('home')
+                else:
+                    messages.error(request, 'wrong password', extra_tags='timeout: 5000')
+                    return redirect('login')
             except:
                 messages.error(request, 'Username or password doesn\'t exist.', extra_tags='timeout:5000')
                 return redirect('login')
@@ -318,8 +321,10 @@ def retriveDetails(request, pk):
         tags = tag_str.split(',')
         if '' in tags:
             tags.remove('')
-
-    old_rating = Rating.objects.filter(user=request.user) & Rating.objects.filter(project=project)
+    if request.user.is_authenticated:
+        old_rating = Rating.objects.filter(user=request.user) & Rating.objects.filter(project=project)
+    else:
+        old_rating = [0]
     try:
         user_rating = old_rating[0].star if old_rating is not None else 0
     except:
