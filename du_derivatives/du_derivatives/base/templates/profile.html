@@ -23,13 +23,15 @@
 
         <main class = "profile-main">
         <div class = "my-poject-text">
-            <p> My projects</p>
             {% if request.user == user %}
+            <p> My projects </p>
             <a href="{% url 'addProject' %}">
                 <button class = "plus-button">
                     <i class="fa-solid fa-plus fa-xl" style="color: #1c2e6e;"></i>
                 </button>
             </a>
+            {% else %}
+            <p> All projects </p>
             {% endif %}
         </div>
 
