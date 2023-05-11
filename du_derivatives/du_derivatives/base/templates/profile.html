@@ -4,7 +4,7 @@
     
         <div class = "profile-view">
             <div class = "profile-image-section">
-                <img class = "profile-icon" src = {{request.user.profile_picture.url}}>
+                <img class = "profile-icon" src = {{user.profile_picture.url}}>
             </div>
             <div class = "profile-info-section">
                 <div class = "name-text">
@@ -24,11 +24,13 @@
         <main class = "profile-main">
         <div class = "my-poject-text">
             <p> My projects</p>
+            {% if request.user == user %}
             <a href="{% url 'addProject' %}">
                 <button class = "plus-button">
                     <i class="fa-solid fa-plus fa-xl" style="color: #1c2e6e;"></i>
                 </button>
             </a>
+            {% endif %}
         </div>
 
 
