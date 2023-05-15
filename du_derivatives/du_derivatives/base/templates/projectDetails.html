@@ -2,8 +2,20 @@
 
 {% block content %}
 
+
+<script>
+
+    $(function() {
+        $(".loader").fadeOut(1000, function() {
+            $(".main").fadeIn(1000);        
+        });
+    });
+    
+      </script>
 <!-- app image and name on top -->
 <main>
+
+<div class="loader"></div>
 
 <div class = app-details-main>
     <div class = "app-details-top">
@@ -56,6 +68,7 @@
             {% endif %}
             {% if request.user == project.developer %}
             <a href="{% url 'projectUpdate' project.id %}"><button class = "edit-btn"> Edit</button></a>
+            <a href="{% url 'deleteProject' project.id %}"><button class = "edit-btn">Delete</button></a>
             {% endif %}
             {% endif %}
             <p>Published: {{project.date_added|date:"F j, Y"}}</p>
@@ -66,7 +79,7 @@
           <div class="slides">
               {% for img in ssimages %}
             <div class="slide" id = "slideid">
-              <img id = "i" class = "slider-image" src="{{img.photo.url}}" alt="Slide 1">
+              <img id = "i" class = "slider-image" onload = "getBGcolorfromImage()" src="{{img.photo.url}}" alt="Slide 1">
             </div>
            {% endfor %}
           </div>
@@ -92,10 +105,12 @@
         <div class = "about-app-developer">
         <div class = "about-app">
             <div class = "about-app-header">
-                <p>About this app </p>
+                <p>About this project </p>
             </div>
             <div class = "about-app-text">
                 <p> {{project.about}}</p>
+                <span style="height: 10px; display:block;"></span>
+                <p>Last updated: {{project.date_last_updated|date:"F j, Y"}}</p>
             </div>
         </div>
         <div class = "about-developer">
@@ -277,12 +292,16 @@ $(document).ready(function() {
 
 <!-- script to get the dominant color of the images in slider -->
 <script>
-var rgb = getAverageRGB(document.getElementById('i'));
-const slidercolor = document.querySelectorAll(".slide");
 
-slidercolor.forEach((s) => {
-    s.style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
-  });
+function getBGcolorfromImage(){
+    var rgb = getAverageRGB(document.getElementById('i'));
+    const slidercolor = document.querySelectorAll(".slide");
+
+    slidercolor.forEach((s) => {
+     s.style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
+     });
+
+}
 
     // document.querySelectorAll(".slide").style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
         // document.getElementById("slideid").style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';

@@ -11,7 +11,6 @@
   position: relative;
   z-index: 1;
   background: #FFFFFF;
-  max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
   border-radius: 10px;
@@ -43,6 +42,7 @@
   transition: all 0.3 ease;
   border-radius: 10px;
   cursor: pointer;
+  margin-top: 10px;
 }
 .form button:hover,.form button:active,.form button:focus {
   background: rgb(43, 69, 164)71;
@@ -123,3 +123,4 @@ body {
     align-items:center;
     margin: 0 0 15px;
 }
+

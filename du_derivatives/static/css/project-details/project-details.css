@@ -298,12 +298,6 @@ align-items: center;
   margin-left: 20px;
   max-height: 300px;
   background-color: rgb(194, 223, 248);
-  /* filter: alpha(opacity=10);
-  /* IE */
-  /* -moz-opacity: 0.1; */
-  /* Mozilla */
-  /* opacity: 0.1; */
-  /* CSS3 */ 
 }
 
 .slide:last-of-type {

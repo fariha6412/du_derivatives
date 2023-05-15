@@ -1,6 +1,6 @@
 import os
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -16,15 +16,15 @@ from django.utils.safestring import mark_safe
 
 
 def home(request):
-    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''  # search query value
 
-    if request.GET.get('Website') == 'Websites':
+    if request.GET.get('Website') == 'Websites':  # if website option is selected, show project of type website
         type = 'Website'
     else:
-        type = 'Application'
-    projectType = ProjectType.objects.get(name=type)
-    top_apps = {}
-    if request.method == "POST":
+        type = 'Application'  # otherwise application type project
+    projectType = ProjectType.objects.get(name=type)  # getting all the projects
+
+    if request.method == "POST":  # batch filtering
         min_batch = request.POST['min-batch']
         max_batch = request.POST['max-batch']
         projects = Project.objects.none()
@@ -36,35 +36,35 @@ def home(request):
             except:
                 users = User.objects.filter(csedu_batch__lte=max_batch)
 
-        for user in users:
+        for user in users:  # getting projects for the selected users
             projects |= Project.objects.filter(type=projectType) & (Project.objects.filter(developer=user) | Project.objects.filter(collaborators=user)) & (
                     Project.objects.filter(title__icontains=q) | Project.objects.filter(
                 tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
-        for pr in projects.order_by('-rate'):
+        for pr in projects.order_by('-rate'):  # top chart apps ordering descending with rate
             top_apps += [{'id': i + 1, 'app': pr}]
             i += 1
             if i == 10:
                 break
-    else:
+    else:  # getting projects without batch filtering
         projects = Project.objects.filter(type=projectType) & (
                 Project.objects.filter(title__icontains=q) | Project.objects.filter(
             tags__icontains=q) | Project.objects.filter(about__icontains=q))
         i = 0
         top_apps = []
-        for pr in projects.order_by('-rate'):
+        for pr in projects.order_by('-rate'):  # top chart apps ordering descending with rate
             top_apps += [{'id': i + 1, 'app': pr}]
             i += 1
             if i == 10:
                 break
-    project_count = projects.count()
+    project_count = projects.count()  # total project count
     return render(request, 'homepage.html',
                   {'top_chart_apps': top_apps, 'general_apps': projects,
                    'selected_text': type, 'project_count': project_count})
 
 
-def profile(request, pk):
+def profile(request, pk):  # to show a user profile along with the built projects
     user = User.objects.get(pk=pk)
     if request.GET.get('Website') == 'Websites':
         type = 'Website'
@@ -204,7 +204,7 @@ def userUpdate(request):
             form.save()
             if old_image != user.profile_picture:
                 os.remove(old_image.path)
-            return redirect('profile')
+            return redirect('profile', user.id)
 
     return render(request, 'userUpdate.html', {'form': form})
 
@@ -384,6 +384,7 @@ def addReply(request, projectPK, reviewPK):
                 print("reply error")
 
 
+@login_required(login_url='login')
 def update_rating(request):
     if request.method == 'POST':
         # Get the project object
@@ -410,3 +411,29 @@ def update_rating(request):
         # Render the project detail page
     return render(request, 'projectDetails.html', retriveDetails(request, project_id))
 
+
+@login_required(login_url='login')
+def deleteProject(request, pk):
+    item = get_object_or_404(Project, id=pk)
+    context = {'item': item}
+    return render(request, 'delete_confirmation.html', context)
+
+
+@login_required(login_url='login')
+def deleteConfirm(request, pk):
+    item = get_object_or_404(Project, id=pk)
+
+    photos = Photo.objects.filter(project=item)
+    reviews = Review.objects.filter(project=item)
+    for review in reviews:
+        replies = Reply.objects.filter(review=review)
+        for reply in replies:
+            reply.delete()
+        review.delete()
+    for photo in photos:
+        photoPath = photo.photo.path
+        photo.delete()
+        os.remove(photoPath)
+
+    item.delete()
+    return redirect('profile', request.user.id)

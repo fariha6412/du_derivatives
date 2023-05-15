@@ -29,4 +29,7 @@ urlpatterns = [
     path('projectDetails-<str:pk>', projectDetails, name='projectDetails'),
     path('addReply:<str:projectPK>:<str:reviewPK>', addReply, name='addReply'),
     path('update_rating', update_rating, name='update_rating'),
+
+    path('deleteProject:<str:pk>', deleteProject, name='deleteProject'),
+    path('deleteConfirm:<str:pk>', deleteConfirm, name='deleteConfirm'),
 ]

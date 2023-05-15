@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+
+<title>DU derivatives</title>
+
+<link rel="stylesheet" href="static/css/login/login.css">
+<link rel="icon" type="image/x-png" href="static/img/logo.png">
+
+</head>
+<style>
+    /* CSS for the snackbar */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #ffffff;
+  color: black;
+  text-align: center;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  bottom: 30px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+#snackbar.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 4.5s;
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
+<body>
+    <div class="login-page">
+        <div class="form">
+              <p style="text-align: center;">Are you sure you want to delete the project <b>{{item.title}}</b>.</p>
+              <a onclick="showSnackbar('Your project got deleted. Redirecting to your profile...')"><button>Delete</button></a>
+              <a href="{% url 'profile' request.user.id %}"><button>Cancel</button></a>
+        </div>
+        <div id="snackbar"></div>
+      </div>
+
+</body>
+
+<script>
+    function showSnackbar(message) {
+  var snackbar = document.getElementById("snackbar");
+  snackbar.textContent = message;
+  snackbar.className = "show";
+
+  // Construct the URL with additional variables as query parameters
+  var redirectUrl = "{% url 'deleteConfirm' item.id %}";
+
+  setTimeout(function() {
+    snackbar.className = snackbar.className.replace("show", "");
+    window.location.href = redirectUrl; // Redirect to the constructed URL
+  }, 2000);
+}
+</script>
