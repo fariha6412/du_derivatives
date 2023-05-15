@@ -31,34 +31,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-
-
-
-<!-- <script>
-
-document.addEventListener('DOMContentLoaded', function(e){ 
-  $(".loader").fadeOut(1000, function() {
-        $(".body").fadeIn(1000);        
-    });
-
-})
-</script> -->
-
-<!-- <script>
-  document.onreadystatechange = function () {
-     if (document.readyState !== "complete") {
-        document.querySelector("body").style.visibility = "hidden";
-        document.getElementsByClassName("loader").style.visibility = "visible";
-     } else {
-        setTimeout(() => {
-           document.getElementsByClassName("loader").style.display ="none";
-           document.body.style.visibility = "visible";
-        }, 3000)
-     }
-  };
-</script> -->
-
-
   </head>
 
   <body class="animate-bottom">
@@ -98,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function(e){
                 <br> {{request.user.name}}
               </p></a>
               <a href="{% url 'profile' request.user.id %}">your profile</a>
-              <a href="#">alter theme</a>
               <a href="{% url 'logout' %}">logout</a>
             </div>
           </div>

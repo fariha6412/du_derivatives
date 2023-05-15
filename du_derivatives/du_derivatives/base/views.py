@@ -420,20 +420,21 @@ def deleteProject(request, pk):
 
 
 @login_required(login_url='login')
-def deleteConfirm(request, pk):
+def deleteConfirm(request, pk):  # deletion confirmed
     item = get_object_or_404(Project, id=pk)
-
     photos = Photo.objects.filter(project=item)
     reviews = Review.objects.filter(project=item)
-    for review in reviews:
+
+    for review in reviews:  # delete all the reviews
         replies = Reply.objects.filter(review=review)
         for reply in replies:
             reply.delete()
         review.delete()
-    for photo in photos:
+
+    for photo in photos:  # delete all the photos
         photoPath = photo.photo.path
         photo.delete()
         os.remove(photoPath)
 
-    item.delete()
+    item.delete()  # delete the project
     return redirect('profile', request.user.id)
